@@ -8,7 +8,7 @@ Hintergrund: einfärbig, guter Kontrast zu Spielfeld
 
 Pipeline:
 
-Treshhold - Hintergrund erkennen, zu Binärbild, Transformationsmatrix ausrechnen durch Seitenlängen
+Treshold - Hintergrund erkennen, zu Binärbild, Transformationsmatrix ausrechnen durch Seitenlängen
 
 Geometrische Transformation
 
