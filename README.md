@@ -18,6 +18,11 @@ Canny - Kantenerkennung
 
 Hough - Spielsteine finden
 
+
+---
+Spielzugerkennung = testen, ob Spielzug gültig ist
+
+
 Geometrische Transformation und Canny beide notwendig?
 
 Bild einheitlich skalieren!
