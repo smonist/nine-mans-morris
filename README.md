@@ -15,6 +15,19 @@ pro Runde mit einem Stein an einen beliebigen freien Punkt springen. Sobald ihm 
 
 ---
 
+Assets:
+
+Datensatz:
+SpielNr_Spielzug.jpg
+bsp: 1_3.jpg    Spiel 1 Zug 3
+
+Threshold:
+T + SpielNr_Spielzug.jpg
+bsp: T1_3.jpg
+
+---
+
+
 Vorbedingungen:
 
 "annähernd" Vogelperspektive - ~30° Winkel
