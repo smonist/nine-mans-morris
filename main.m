@@ -1,1 +1,1 @@
-threshold(0,0,0.5)
+threshold(1,0,0.5)
