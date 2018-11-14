@@ -19,9 +19,24 @@ function a = threshold(nrOfGames, nrOfRound ,custom_threshold)
         for i = 1 : nrOfRound
             nr = int2str(i);
             filename = strcat(int2str(j), '_', nr, '.jpg');
-            img = im2double((imread( strcat('assets/original/',filename))));
-            BW = im2bw(img, custom_threshold);
-            imwrite(BW, fullfile('assets/threshold/', strcat('T', filename)));
+            
+            BW = imread( strcat('assets/original/',filename));
+            BW = rgb2gray(BW);
+            BW = imbinarize(BW, custom_threshold);
+            
+            %find first horizontal pixel
+            [x, y] = find(BW, 1, 'first');
+            
+            imagesc(rot90(flipud(BW),-1))
+            set(gca,'YDir','normal')
+            rectangle('Position', [x, y, 100, 100], 'FaceColor',[1 0 0 ])
+            
+            
+            %find first vertical pixel
+            %[x, y] = find(BW, 1, 'first')
+
+            
+            %imwrite(BW, fullfile('assets/threshold/', strcat('T', filename)));
         end
     end
 end
