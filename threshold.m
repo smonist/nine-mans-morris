@@ -1,7 +1,8 @@
 function v = threshold(gameNr, roundNr, custom_threshold)
-    filename = strcat(int2str(gameNr), '_', int2str(roundNr), '.jpg');
+    f = filename(gameNr, roundNr);
+    fp = filename(gameNr, roundNr, 'original');
 
-    BW = imread( strcat('assets/original/',filename));
+    BW = imread(fp);
     BW = rgb2gray(BW);
     BW = imbinarize(BW, custom_threshold);
     BW = imrotate(BW, -90);
@@ -10,21 +11,24 @@ function v = threshold(gameNr, roundNr, custom_threshold)
     v = zeros(2,4);
 
     %bottom left
-    [v(2), v(1)];
+    v(1) = 0;
+    v(2) = 0;
     %top left
-    [v(4), v(3)] = find(BW, 1, 'last');
+    [v(4), v(3)] = find(BW, 1, 'first');
     %top right
-    [v(6), v(5)];
+    v(5) = 0;
+    v(6) = 0;
     %bottom right
-    [v(8), v(7)] = find(BW, 1, 'first');
-    
+    [v(8), v(7)] = find(BW, 1, 'last');
+
     
     %print rectangle
     imshow(BW);
-    hold on;
+    hold on
     plot(v(1:2:8),v(2:2:8),'r','Linewidth',2);
     hold off;
     %end print
     
-    imwrite(BW, fullfile('assets/threshold/', strcat('T', filename)));
+    
+    imwrite(BW, fullfile('assets/threshold/', strcat('T', f)));
 end
