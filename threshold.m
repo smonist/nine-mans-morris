@@ -1,11 +1,9 @@
 function v = threshold(gameNr, roundNr, custom_threshold)
     f = filename(gameNr, roundNr);
-    fp = filename(gameNr, roundNr, 'original');
-
-    BW = imread(fp);
+    
+    BW = imread(['assets/original/' f]);
     BW = rgb2gray(BW);
     BW = imbinarize(BW, custom_threshold);
-    BW = imrotate(BW, -90);
 
     %vertices matrix
     v = zeros(2,4);
@@ -30,5 +28,5 @@ function v = threshold(gameNr, roundNr, custom_threshold)
     %end print
     
     
-    imwrite(BW, fullfile('assets/threshold/', strcat('T', f)));
+    imwrite(BW, fullfile('assets/threshold/', ['T', f]));
 end
