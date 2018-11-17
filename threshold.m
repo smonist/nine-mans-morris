@@ -1,4 +1,4 @@
-function v = threshold(gameNr, roundNr, custom_threshold)
+function corners = threshold(gameNr, roundNr, custom_threshold)
     f = filename(gameNr, roundNr);
     
     BW = imread(['assets/original/' f]);
@@ -6,24 +6,24 @@ function v = threshold(gameNr, roundNr, custom_threshold)
     BW = imbinarize(BW, custom_threshold);
 
     %vertices matrix
-    v = zeros(2,4);
+    corners = zeros(4,2)
 
     %bottom left
-    v(1) = 0;
-    v(2) = 0;
+    corners(5) = 0;
+    corners(1) = 0;
     %top left
-    [v(4), v(3)] = find(BW, 1, 'first');
+    [corners(6), corners(2)] = find(BW, 1, 'first');
     %top right
-    v(5) = 0;
-    v(6) = 0;
+    corners(7) = 0;
+    corners(3) = 0;
     %bottom right
-    [v(8), v(7)] = find(BW, 1, 'last');
+    [corners(8), corners(4)] = find(BW, 1, 'last');
 
     
     %print rectangle
     imshow(BW);
     hold on
-    plot(v(1:2:8),v(2:2:8),'r','Linewidth',2);
+    plot(corners(1:4),corners(5:8),'r','Linewidth',2);
     hold off;
     %end print
     
