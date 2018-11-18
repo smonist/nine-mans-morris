@@ -29,22 +29,32 @@ bsp: T1_3.jpg
 
 
 Vorbedingungen:
-
-"annähernd" Vogelperspektive - ~30° Winkel
-
-Hintergrund: einfärbig, guter Kontrast zu Spielfeld
-
+("annähernd“ Vogelperspektive) - maximale Verzerrung: 30° Winkel
+Hintergrund: Einfärbig, eher dunkel mit einem guten Kontrast zum (weißen) Spielfeld
 Pipeline:
+1. Threshold um Hintergrund von Spielfeld separieren.
+            Input: RGB Bild
+            Output: RGB Bild, SW Bild, 4 Eckpunkte
+2. Transformationsmatrix anhand der Eckpunkte des separierten Spielfeldes berechnen
+            Input: RGB Bild, 4 Eckpunkte 
+            Output: RGB Bild, Transformationsmatrix
+3. Geometrische Transformation
+            Input: RGB Bild, Transformationsmatrix
+            Output: Entzerrtes RGB Bild
+4. Spielfeld ausschneiden, Bild auf 500px Breite (hinunter)skalieren!
+            Input: Entzerrtes RGB Bild
+            Output: 500 x 500 Pixel Spielfeld RGB
+5. Canny – Kantenerkennung
+            Input: Spielfeld RGB
+            Output: Spielfeld RGB, Kanten
+6. Hough - Spielsteine finden
+            Input: Spielfeld RGB
+            Output: Spielsteine/Kreise
+7. Spielzug erkennen (Ganze Pipeline mit zweitem Bild nochmal und prüfen, ob Spielzug gültig ist)
+            Input: Kanten, Spielsteine
+            Output: Spielzug legal/ilegal
+Spielzugerkennung = testen, ob Spielzug gültig ist
 
-Treshold - Hintergrund erkennen, zu Binärbild, Transformationsmatrix ausrechnen durch Seitenlängen
-
-Geometrische Transformation
-
-Spielfeld ausschneiden, Bild einheitlich skalieren!
-
-Canny - Kantenerkennung
-
-Hough - Spielsteine finden
 
 
 ---
