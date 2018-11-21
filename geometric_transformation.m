@@ -1,7 +1,7 @@
 function geometric_transformation(gameNr, roundNr, corners)
     f = filename(gameNr, roundNr);
     img = imread(['assets/threshold/T' f]);
-
+    
     base = [0 10; 10 10; 10 0; 0 0];
     tf = fitgeotrans(corners,base*50,'projective');
     
