@@ -1,15 +1,9 @@
 function geometric_transformation(gameNr, roundNr, corners)
     f = filename(gameNr, roundNr);
+    
     img = imread(['assets/threshold/T' f]);
-<<<<<<< HEAD
-
     base = [0 506; 506 506; 506 0; 0 0];
     tf = fitgeotrans(corners,base,'projective');
-=======
-    
-    base = [0 10; 10 10; 10 0; 0 0];
-    tf = fitgeotrans(corners,base*50,'projective');
->>>>>>> a5107a0265d88f8e7d9a4caeefff44f0e03d8a00
     
     [xf1, xf1_ref] = imwarp(img,tf);
     [xdataT,ydataT] = transformPointsForward(tf,corners(1:4),corners(5:8));
