@@ -9,7 +9,8 @@ function geometric_transformation(gameNr, roundNr, corners)
     [xdataT,ydataT] = transformPointsForward(tf,corners(1:4),corners(5:8));
     [xdataI, ydataI] = worldToIntrinsic(xf1_ref,xdataT,ydataT);
     
-    croped = imcrop(xf1,[min(xdataI)+4 min(ydataI)+4 499 499]);
-    croped = imrotate(croped, 180);
-    imwrite(croped, fullfile('assets/geometric_transformation/', ['G', f]));
+    cropped = imcrop(xf1,[min(xdataI)+4 min(ydataI)+4 499 499]);
+    %cropped = imrotate(cropped, 180);
+    cropped = flip(cropped, 1);
+    imwrite(cropped, fullfile('assets/geometric_transformation/', ['G', f]));
 end
