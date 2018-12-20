@@ -20,6 +20,10 @@ result3d = huff3d(35,50, coin, 50,22)       % alle treffen nie bei ca 40% funkti
 %border -> wie viele KreisePunkte müssen im Huffraum übereinander liegen
 %damit es als Kreismittelpunkt gezählt wird 
 
+%ist nicht wirklich huff3d weil es in einem 2D huff raum bleibt. Ist einfach nur huff2d oft ausgeführt und 
+%einfach die Mittelpunkte gesammelt und nacher doppelte rausgelöscht. Vl brauchen wir aber gar kein wirkliches huff
+%im 3d raum weil wir ja keine Kozentrischen Kreise finden müssen. Sondern nur SpielSteine. Kozentrische Kreise würden wir eh 
+%wieder raus löschen müssen.
 function [center] = huff3d(radiusMin, radiusMax, edge, intersect, border)
     center = [1000,1000]; %sollten wir uns sparen aber keine ahnung wie man das macht 
     for i=radiusMin:radiusMax
