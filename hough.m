@@ -1,6 +1,6 @@
 %TODO Stürzt ab sobald ein Kreispunkt aussehrhalb von huffraum ist; 
 %TODO Wir löschen wenn zwei Mittelpunkte zu nah aneinader sind immer irgend einen und nicht dem mit dem niederen wert im huff raum 
-imput = imread('assets/testImages/circels10-50-55-60-100px.jpg');
+imput = imread('assets/testImages/circels10-50-55-60-100-eck.jpg');
 imput = rgb2gray(imput);
 imput = edge(imput);
 imshow(imput); 
