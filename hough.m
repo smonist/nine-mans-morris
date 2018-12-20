@@ -1,9 +1,9 @@
 
-imput = imread('circels10-50-55-60-100px.jpg');
+imput = imread('assets/testImages/circels10-50-55-60-100px.jpg');
 imput = rgb2gray(imput);
 imput = edge(imput);
 imshow(imput); 
-coin = imread('coin.jpg');
+coin = imread('assets/testImages/coin.jpg');
 coin = rgb2gray(coin); 
 coin = edge(coin); 
 
