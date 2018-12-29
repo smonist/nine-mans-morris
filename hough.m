@@ -1,16 +1,8 @@
-%TODO Stürzt ab sobald ein Kreispunkt aussehrhalb von huffraum ist; 
-%TODO Wir löschen wenn zwei Mittelpunkte zu nah aneinader sind immer irgend einen und nicht dem mit dem niederen wert im huff raum 
-imput = imread('assets/testImages/circels10-50-55-60-100-eck.jpg');
-imput = rgb2gray(imput);
-imput = edge(imput);
-imshow(imput); 
-coin = imread('assets/testImages/coin.jpg');
-coin = rgb2gray(coin); 
-coin = edge(coin); 
+
 
 %result = huff2d(25, imput, 30,10)
-result3d = huff3d(5,50, imput, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
-result3d = huff3d(35,50, coin, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
+%result3d = huff3d(5,50, imput, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
+%result3d = huff3d(35,50, coin, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
 
 
 %berechnet den Mittelpunkt von kreisen mit einem radius radiusMin – radiusMax 
@@ -24,10 +16,10 @@ result3d = huff3d(35,50, coin, 50,22)       % alle treffen nie bei ca 40% funkti
 %einfach die Mittelpunkte gesammelt und nacher doppelte rausgelöscht. Vl brauchen wir aber gar kein wirkliches huff
 %im 3d raum weil wir ja keine Kozentrischen Kreise finden müssen. Sondern nur SpielSteine. Kozentrische Kreise würden wir eh 
 %wieder raus löschen müssen.
-function [center] = huff3d(radiusMin, radiusMax, edge, intersect, border)
+function [center] = hough(radiusMin, radiusMax, edge, intersect, border)
     center = [1000,1000]; %sollten wir uns sparen aber keine ahnung wie man das macht 
     for i=radiusMin:radiusMax
-        centertmp = huff2d(i,edge,intersect, border);
+        centertmp = hufffixedRadius(i,edge,intersect, border);
         center = [center;centertmp]; % fügt iterativ immer mehr Mittelpunkte hinzu
     end 
     center = deletDouble(center, radiusMin); %lösche alle Mittelpunkte die zu nah zusammen sind
@@ -43,7 +35,7 @@ end
 % border -> wie viele KreisePunkte müssen im Huffraum übereinander liegen
 %damit es als Kreismittelpunkt gezählt wird  
 
-function [center] = huff2d(radius, edge, intersect, border) 
+function [center] = hufffixedRadius(radius, edge, intersect, border) 
     [rows, columns] = size(edge);
     step = pi*2/intersect;
     huff = zeros(rows, columns); 
