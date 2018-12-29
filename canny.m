@@ -1,4 +1,4 @@
-function return_value = canny(gameNr, roundNr)
+function canny(gameNr, roundNr)
     f = filename(gameNr, roundNr);
     img = imread(['assets/geometric_transformation/G' f]);
 
@@ -44,10 +44,35 @@ function return_value = canny(gameNr, roundNr)
     gradientMax = max(max(gradient));
     gradientMin = min(min(gradient));
     level = 0.25 * (gradientMax - gradientMin) + gradientMin;
+    ibw = max(gradient, level .* ones(size(gradient)));
     
-    temp = max(gradient, level .* ones(size(gradient)));
+    % Thinning
+    [n,m]=size(ibw);
+    for i=2:n-1,
+        for j=2:m-1,
+            if ibw(i,j) > level,
+            X=[-1,0,+1;-1,0,+1;-1,0,+1];
+            Y=[-1,-1,-1;0,0,0;+1,+1,+1];
+            Z=[ibw(i-1,j-1),ibw(i-1,j),ibw(i-1,j+1);
+               ibw(i,j-1),ibw(i,j),ibw(i,j+1);
+               ibw(i+1,j-1),ibw(i+1,j),ibw(i+1,j+1)];
+            XI=[sX(i,j)/gradient(i,j), -sX(i,j)/gradient(i,j)];
+            YI=[sY(i,j)/gradient(i,j), -sY(i,j)/gradient(i,j)];
+            ZI=interp2(X,Y,Z,XI,YI);
+                if ibw(i,j) >= ZI(1) & ibw(i,j) >= ZI(2)
+                I_temp(i,j)=gradientMax;
+                else
+                I_temp(i,j)=gradientMin;
+                end
+            else
+            I_temp(i,j)=gradientMin;
+            end
+        end
+    end
+        
 
-    imshow(edge(img, 'canny'));
+
+    %imshow(I_temp);
     
     
     % Non-maximum suppression
@@ -58,6 +83,5 @@ function return_value = canny(gameNr, roundNr)
     %imshow(gradient)
     
    
-    
-    return_value = 1;
+    imwrite(I_temp, fullfile('assets/Canny/', ['E', f]));
 end

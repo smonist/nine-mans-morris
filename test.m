@@ -1,9 +1,11 @@
-%%%%%%%%%%%%% The main.m file  %%%%%%%%%%%%%%%
-clear;
 % The algorithm parameters:
 % 1. Parameters of edge detecting filters:
 %    X-axis direction filter:
-     Nx1=10;Sigmax1=1;Nx2=10;Sigmax2=1;Theta1=pi/2;
+     Nx1=10;
+     Sigmax1=1;
+     Nx2=10;
+     Sigmax2=1;
+     Theta1=pi/2;
 %    Y-axis direction filter:
      Ny1=10;Sigmay1=1;Ny2=10;Sigmay2=1;Theta2=0;
 % 2. The thresholding parameter alfa:
