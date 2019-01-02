@@ -8,22 +8,17 @@ function hough(gameNr, roundNr)
     
     img = imread(['assets/Canny/E' f]);
     img = imbinarize(img); 
-    
-    %img = imfinfo(['assets/Canny/E' f]);
-    %img = imread('assets/testImages/coin.jpg');
-    %img = rgb2gray(img); 
-    %img = edge(img);
-    
-    
-    center = [1000,1000]; %sollten wir uns sparen aber keine ahnung wie man das macht 
+
+    center = [1000,1000];   %Matrix which stores all potential midpoints. 
     for i=radiusMin:radiusMax
         centertmp = hufffixedRadius(i,img,intersect, border);
-        center = [center;centertmp]; % fügt iterativ immer mehr Mittelpunkte hinzu
+        center = [center;centertmp]; %adds another midpoints to the Matrix. 
     end 
-    center = deletDouble(center, radiusMin); %lösche alle Mittelpunkte die zu nah zusammen sind
-    center(1,:) = []   %erste zeile wieder löschen 
+    center = deletDouble(center, radiusMin); %delets all midpoints which are close together. 
+    center(1,:) = [];
     
-    centerBin = zeros(500,500);
+    centerBin = zeros(500,500); %creates an Matrix which stores the midpoints position on the matchfield 
+    
     for i=1:size(center,1)
         tmpY = center(i,1); 
         tmpX = center(i,2);
@@ -34,14 +29,6 @@ function hough(gameNr, roundNr)
     dlmwrite(fullfile('assets/Hough/', ['HT', ft]),center);
 end 
 
-
-
-%berechnet den Mittelpunkt von den kreisen mit radius. 
-%ende ->  kantenbild 
-%intersect -> wie aus wie Punkten ein Kreis besteht (eher höherer Wert
-%damit Geschlossen) 
-% border -> wie viele KreisePunkte müssen im Huffraum übereinander liegen
-%damit es als Kreismittelpunkt gezählt wird  
 
 function [center] = hufffixedRadius(radius, edge, intersect, border) 
     [rows, columns] = size(edge);
@@ -79,7 +66,6 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
     end 
     
 end 
-
 
 
 % löscht punkte die zu nah zusammen sind (distance < radius) weil wir
