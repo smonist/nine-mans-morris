@@ -81,7 +81,13 @@ function canny(gameNr, roundNr)
     
     %imshow(imbinarize(gradient, 0.99))
     %imshow(gradient)
-    
-   
+    for i=1:499
+        for j = 1:499
+            if (I_temp(i,j) > 2) 
+                I_temp(i,j) = 1; 
+            end 
+        end 
+    end 
+    imshow(I_temp) 
     imwrite(I_temp, fullfile('assets/Canny/', ['E', f]));
 end

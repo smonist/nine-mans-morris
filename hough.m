@@ -1,11 +1,15 @@
 function hough(gameNr, roundNr)
     f = filename(gameNr, roundNr);
-    radiusMin = 35; 
-    radiusMax = 50; 
-    intersect = 50; 
-    border = 22;  
+    ft = filenameText(gameNr, roundNr); 
+    radiusMin = 15; 
+    radiusMax = 60; 
+    intersect = 35; 
+    border = 13;  
     
-    img = imread(['assets/Canny/E' f]); 
+    img = imread(['assets/Canny/E' f]);
+    img = imbinarize(img); 
+    
+    %img = imfinfo(['assets/Canny/E' f]);
     %img = imread('assets/testImages/coin.jpg');
     %img = rgb2gray(img); 
     %img = edge(img);
@@ -27,6 +31,7 @@ function hough(gameNr, roundNr)
     end 
     imshow(centerBin); 
     imwrite(centerBin, fullfile('assets/Hough/', ['H', f]));
+    dlmwrite(fullfile('assets/Hough/', ['HT', ft]),center);
 end 
 
 
@@ -41,7 +46,7 @@ end
 function [center] = hufffixedRadius(radius, edge, intersect, border) 
     [rows, columns] = size(edge);
     step = pi*2/intersect;
-    huff = zeros(rows, columns); 
+    huff = zeros(500, 500); 
     if (border > 0) 
         for y=1:rows
             for x=1:columns
@@ -49,8 +54,8 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
                    for t = 0:step:(pi*2)
                         hx = int16(x + radius * cos(t));
                         hy = int16(y + radius *  sin(t));
-                        if (hx <= 500 && hy >= 0)
-                            if (hy >= 0 && hy <= 500)
+                        if (hx < 500 && hx > 0)
+                            if (hy > 0 && hy < 500)
                                huff(hy,hx) = huff(hy,hx)+1;
                             end 
                         end 
