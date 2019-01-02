@@ -6,9 +6,9 @@ function findStein(gameNr, roundNr)
     
     f = filename(gameNr, roundNr);
     img = imread(['assets/geometric_transformation/G' f]);
-    img = img2gray(img); 
+    img = rgb2gray(img); 
     
-    maxdist = 30;
+    maxdist = 50;
     %find sector    
     % links oben nach rechts
     % outer
@@ -29,7 +29,7 @@ function findStein(gameNr, roundNr)
     
     for j = 1:centersize(1)
         for i = 1 : 24
-        dist = distance(Middles(i,:),centers(j, :))
+        dist = distance(Middles(i,:),centers(j, :));
             if dist <= maxdist
                 stones(i)= checkColor(img, centers(j, :));
             end
@@ -37,7 +37,7 @@ function findStein(gameNr, roundNr)
     
     end
 
-    stones
+   matrix = stonesTo333(stones);
     
 end
 
@@ -49,7 +49,7 @@ end
 
 function color = checkColor(img , center)
 
-    colorImage = img(center); 
+    colorImage = img(center(1), center(2)); 
     
      if(colorImage < 125) 
         color = 1; 
@@ -62,14 +62,14 @@ end
 function matrix = stonesTo333(stones)
    matrix = zeros(3,3,3);
     for i=1:3
-        matrix(i,1,1)=stones(1+(i-1)*8);
-        matrix(i,1,2)=stones(2+(i-1)*8);
-        matrix(i,1,3)=stones(3+(i-1)*8);
-        matrix(i,2,3)=stones(4+(i-1)*8);
-        matrix(i,3,3)=stones(5+(i-1)*8);
-        matrix(i,3,2)=stones(6+(i-1)*8);
-        matrix(i,3,1)=stones(7+(i-1)*8);
-        matrix(i,2,1)=stones(8+(i-1)*8);
+        matrix(1,1,i)=stones(1+(i-1)*8);
+        matrix(1,2,i)=stones(2+(i-1)*8);
+        matrix(1,3,i)=stones(3+(i-1)*8);
+        matrix(2,3,i)=stones(4+(i-1)*8);
+        matrix(3,3,i)=stones(5+(i-1)*8);
+        matrix(3,2,i)=stones(6+(i-1)*8);
+        matrix(3,1,i)=stones(7+(i-1)*8);
+        matrix(2,1,i)=stones(8+(i-1)*8);
     end
-   
+   matrix
 end
