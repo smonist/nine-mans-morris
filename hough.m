@@ -24,7 +24,6 @@ function hough(gameNr, roundNr)
         tmpX = center(i,2);
         centerBin(tmpY, tmpX) = 1; 
     end 
-    imshow(centerBin); 
     imwrite(centerBin, fullfile('assets/Hough/', ['H', f]));
     dlmwrite(fullfile('assets/Hough/', ['HT', ft]),center);
 end 

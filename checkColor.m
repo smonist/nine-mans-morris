@@ -3,7 +3,8 @@
 function color = checkColor(gameNr, roundNr, center)
      f = filename(gameNr, roundNr);
      img = imread(['assets/geometric_transformation/G' f]);
-     img = img2gray(img); 
+     img = img2gray(img)
+     imshow(img); 
      colorImage = img(center); 
      if(colorImage < 125) 
         color = 1; 
