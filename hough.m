@@ -1,29 +1,32 @@
-
-
-%result = huff2d(25, imput, 30,10)
-%result3d = huff3d(5,50, imput, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
-%result3d = huff3d(35,50, coin, 50,22)       % alle treffen nie bei ca 40% funktioniert es meistens ganz gut
-
-
-%berechnet den Mittelpunkt von kreisen mit einem radius radiusMin – radiusMax 
-%ende ->  kantenbild 
-%intersect -> wie aus wie Punkten ein Kreis besteht (eher höherer Wert
-%damit Geschlossen) 
-%border -> wie viele KreisePunkte müssen im Huffraum übereinander liegen
-%damit es als Kreismittelpunkt gezählt wird 
-
-%ist nicht wirklich huff3d weil es in einem 2D huff raum bleibt. Ist einfach nur huff2d oft ausgeführt und 
-%einfach die Mittelpunkte gesammelt und nacher doppelte rausgelöscht. Vl brauchen wir aber gar kein wirkliches huff
-%im 3d raum weil wir ja keine Kozentrischen Kreise finden müssen. Sondern nur SpielSteine. Kozentrische Kreise würden wir eh 
-%wieder raus löschen müssen.
-function [center] = hough(radiusMin, radiusMax, edge, intersect, border)
+function hough(gameNr, roundNr)
+    f = filename(gameNr, roundNr);
+    radiusMin = 35; 
+    radiusMax = 50; 
+    intersect = 50; 
+    border = 22;  
+    
+    img = imread(['assets/Canny/E' f]); 
+    %img = imread('assets/testImages/coin.jpg');
+    %img = rgb2gray(img); 
+    %img = edge(img);
+    
+    
     center = [1000,1000]; %sollten wir uns sparen aber keine ahnung wie man das macht 
     for i=radiusMin:radiusMax
-        centertmp = hufffixedRadius(i,edge,intersect, border);
+        centertmp = hufffixedRadius(i,img,intersect, border);
         center = [center;centertmp]; % fügt iterativ immer mehr Mittelpunkte hinzu
     end 
     center = deletDouble(center, radiusMin); %lösche alle Mittelpunkte die zu nah zusammen sind
-    center(1,:) = [];   %erste zeile wieder löschen 
+    center(1,:) = []   %erste zeile wieder löschen 
+    
+    centerBin = zeros(500,500);
+    for i=1:size(center,1)
+        tmpY = center(i,1); 
+        tmpX = center(i,2);
+        centerBin(tmpY, tmpX) = 1; 
+    end 
+    imshow(centerBin); 
+    imwrite(centerBin, fullfile('assets/Hough/', ['H', f]));
 end 
 
 
@@ -55,7 +58,7 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
                end 
             end
         end
-        imshow(huff);   %kann man raus nehmen 
+        %imshow(huff);   %kann man raus nehmen 
 
         center = [10000,100000]; %keine ahnung wie man das eleganter löst 
         for y=1:rows
