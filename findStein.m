@@ -7,7 +7,7 @@ function findStein(gameNr, roundNr)
     f = filename(gameNr, roundNr);
     img = imread(['assets/geometric_transformation/G' f]);
     img = rgb2gray(img); 
-    
+    imshow(img); 
     maxdist = 50;
     %find sector    
     % links oben nach rechts
@@ -22,7 +22,7 @@ function findStein(gameNr, roundNr)
     % 320, 180 // 246,180
      
     Middles = [ 33 33 ; 25 250; 25 470; 245 470; 465 470; 465 255; 270 34 ; 250 32 ;
-                107 107; 250 100; 100,396 ; 245,397 ; 393,297 ; 393,255 ; 392,108 ; 249,107;
+                107 107; 250 100; 100,396 ; 245,397 ; 393,397 ; 393,255 ; 392,108 ; 249,107;
                 175, 180 ; 175,250 ; 175, 323 ; 245,323 ; 316,324 ; 320,255 ; 320, 180 ; 246,180 ];
     
     stones = zeros(1, 24);
@@ -51,7 +51,7 @@ function color = checkColor(img , center)
 
     colorImage = img(center(1), center(2)); 
     
-     if(colorImage < 125) 
+     if(colorImage < 127) 
         color = 1; 
      else
          color = 2; 
