@@ -12,6 +12,7 @@
 \usepackage{multirow}
 \usepackage{color}
 \usepackage[]{geometry}
+\graphicspath{ {./images/} }
 \begin{document}
 
 
@@ -21,13 +22,15 @@
 
 \title{nine-mans-morris} %%Projekttitel hier eintragen
 
-\subtitle{EDBV WS 2018/2019: AG\_XX} %%statt XX Arbeitsgruppenbezeichnung hier eintragen (zB.: A1)
+\subtitle{EDBV WS 2018/2019: AG\_C3} %%statt XX Arbeitsgruppenbezeichnung hier eintragen (zB.: A1)
 
 
 %%Namen und Matrikelnummern der Gruppenmitglieder hier eintragen
-\author{Vorname1 Nachname1 (Matrikelnummer1)\\
-Vorname2 Nachname2 (Matrikelnummer2)\\
-...}
+\author{Tobias Batik (11701221)\\
+Bougouma Fall (01427956)\\
+Yannic Ellhotka (11776168)\\
+Simon Wesp (XXXXXXX)
+}
 
 
 
@@ -41,11 +44,47 @@ Vorname2 Nachname2 (Matrikelnummer2)\\
 (1-1,5 Seiten)\\
 entspricht dem (aktualisierten) Konzept
 \subsection{Ziel}
+Ziel des Projekts\\
+Brettspiel Muehle einlesen und moglichen naechsten Zug vorhersagen.
 \subsection{Eingabe}
+Folge von Farbbildern des Spielbrettes. 
+
 \subsection{Ausgabe}
+TODO müssen wir neu schreiben !!!!
 \subsection{Voraussetzungen und Bedingungen}
+Bilder muessen annaehernd in Volgelperspektive aufgenommen werden (+-30 Grad). \\
+Das Spielbrett muss die in der Grafik dargestellten relativen Maßeinheiten erfüllen. 
+
+\includegraphics[width=8cm]{Spielbrett_relativeDimensionen_grafik.jpg}\\
+Der Hintergrund der Spielfelder muss ausreichend Kontrast zu den weißen sowie schwarzen Spielsteinen aufweisen. \\
+Die verwendeten Spielsteine haben eine durchmesser von Breite des Spielfelder * 0.08\\
+Steine muessen eindeutig auf den vorgesehen Punkten liegen.\\
 \subsection{Methodik}
+1. Grauwert\\
+\hspace*{1em} a. Input: RGB-Bild\\
+\hspace*{1em} 	b. Output: Grauwertbild \\
+2.  Threshold\\
+\hspace*{1em} a. Input: Grauwertbild\\
+\hspace*{1em} b. Output: Binärbild ???????? \\
+3. Geometrische Transformation\\
+\hspace*{1em} a. Input: Kantenbild und Koordinaten der Vierecke\\
+\hspace*{1em} b. Output: transformiertes Kanten-Bild des Spielfeldes \\
+4. Canny\\
+\hspace*{1em} a. Input: Grauwertbild\\
+\hspace*{1em} b. Output: Kantenbild \\
+5. Hough-Transformation \\
+\hspace*{1em} a. Input: transformiertes Kanten-Bild des Spielfeldes\\
+\hspace*{1em} b. Output: Mittelpunkte der Spielsteine \\
+6. Muss ich mir noch überlegen wie das heißt  \\
+\hspace*{1em} a. Input: Mittelpunkte der Spielsteine und entzerrtes Graustufenbild\\
+\hspace*{1em} b. Output: 3x3x3 Array das den aktuellen Spielstand repräsentiert \\
+7. Algorithmus Zug berechnen Stimmt nicht mehr\\
+\hspace*{1em} a. Input: Array des aktuellen Spielstands \\
+\hspace*{1em} b. Output: Vorgeschlagener naaechster Zug
+
 \subsection{Evaluierungsfragen}
+1. Wird das Spielfeld richtig eingelesen?\\
+2. Wird ein gueltiger Spielzug vorhergesagt?\\
 \subsection{Zeitplan}
 Der Zeitplan soll neben Euren anfänglichen, geplanten Zeiten/Arbeitsaufwände die tatsächlichen Zeiten/Arbeitsaufwände beinhalten. 
 \begin{table}[h!]
