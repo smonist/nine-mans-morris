@@ -8,22 +8,12 @@ function findStein(gameNr, roundNr)
     img = imread(['assets/geometric_transformation/G' f]);
     img = rgb2gray(img); 
     imshow(img); 
-    maxdist = 50;
-    %find sector    
-    % links oben nach rechts
-    % outer
-    % 33,33 // 25,250 // 25,470 // 245,470 // 465,470 // 465,255 // 470,34
-    % // 250, 32 // 
-    % middle
-    % 107,107 // 250,100 // 100,396 // 245,397 // 393,297 // 393,255 //
-    % 392,108 // 249,107 // 
-    %smalll
-    % 175, 180 // 175,250 // 175, 323 // 245,323 // 316,324 // 320,255 //
-    % 320, 180 // 246,180
+    
+    maxdist = 25;   %kleinste distanze zwischen zwei feldern ist 60 pixel 
      
-    Middles = [ 33 33 ; 25 250; 25 470; 245 470; 465 470; 465 255; 270 34 ; 250 32 ;
-                107 107; 250 100; 100,396 ; 245,397 ; 393,397 ; 393,255 ; 392,108 ; 249,107;
-                175, 180 ; 175,250 ; 175, 323 ; 245,323 ; 316,324 ; 320,255 ; 320, 180 ; 246,180 ];
+    Middles = [ 50 50 ; 50 250; 50 450;         250 450; 450 450; 450 250;      450 50 ; 250 50 ;
+                110 105; 110 250; 110,400;      250,400 ; 390,400 ; 390,250;    390,110 ; 250,110;
+                180, 180 ; 180,250 ; 180,310;   250,315 ; 310,315 ;310,250;   310, 180 ; 250,180];
     
     stones = zeros(1, 24);
     
@@ -34,10 +24,10 @@ function findStein(gameNr, roundNr)
                 stones(i)= checkColor(img, centers(j, :));
             end
         end
-    
     end
-
-   matrix = stonesTo333(stones);
+    
+   matrix = stonesTo333(stones)
+   dlmwrite(fullfile('assets/score/', ['M', ft]),matrix);
     
 end
 
@@ -49,12 +39,16 @@ end
 
 function color = checkColor(img , center)
 
-    colorImage = img(center(1), center(2)); 
-    
-     if(colorImage < 127) 
-        color = 1; 
+    colorImage = img(center(1), center(2));     %TODO hier evtl statt einem pixel alle 8 nachbarpixel nehmen und average bilden
+
+     if(colorImage < 80) 
+        color = 1;  
      else
-         color = 2; 
+         if (colorImage > 180)
+            color = 2; 
+         else 
+            color = 3; 
+         end 
      end 
 
 end
@@ -71,5 +65,5 @@ function matrix = stonesTo333(stones)
         matrix(3,1,i)=stones(7+(i-1)*8);
         matrix(2,1,i)=stones(8+(i-1)*8);
     end
-   matrix
+  
 end
