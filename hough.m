@@ -1,8 +1,8 @@
 function hough(gameNr, roundNr)
     f = filename(gameNr, roundNr);
     ft = filenameText(gameNr, roundNr); 
-    radiusMin = 15; 
-    radiusMax = 60; 
+    radiusMin = 15; %durchschnittlicher radius der Kreise im entzerrten Bild = 20px
+    radiusMax = 25; 
     intersect = 35; 
     border = 13;  
     
@@ -49,9 +49,8 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
                end 
             end
         end
-        %imshow(huff);   %kann man raus nehmen 
-
-        center = [10000,100000]; %keine ahnung wie man das eleganter löst 
+      
+        center = [10000,100000]; 
         for y=1:rows
             for x=1:columns
                 if(huff(y,x) >= border) %wenn punkt wert hoch genug ist als Mittelpunkt hinzufügen
@@ -61,16 +60,14 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
         end 
         
         center = deletDouble(center, radius); %lösche alle Mittelpunkte die zu nah zusammen sind
-        center(1,:) = [];   %lösche erste zeile. Sau schirch aber keine ahnung von dem Matlab dreck
+        center(1,:) = [];   
     end 
     
 end 
 
 
 % löscht punkte die zu nah zusammen sind (distance < radius) weil wir
-% annnehmen das 2 kreise nie übereinander liegen. Nimmt jetzt nur mal den 
-% Löscht jetzt immer den vorderen Punkt raus & nicht immer den der im huff
-% raum den geringsten wert hat
+% annnehmen das 2 kreise nie übereinander liegen. 
 function [center] = deletDouble(center,radius) 
     [rowsCenter, columnsCenter] = size(center);
     i=1;
@@ -79,7 +76,7 @@ function [center] = deletDouble(center,radius)
             while(j <= rowsCenter) 
                         d = distance(center(i,:), center(j,:));
                         if (d < radius) %kreise überlappen sich 
-                            center(i,:) = [];   %löscht den ersten. Evtl zuerst schauen welcher der ist der im huff raum stärker ist 
+                            center(i,:) = [];   %löscht den ersten.
                             i = i-1;
                             j = j-1; 
                             rowsCenter = rowsCenter-1;

@@ -1,4 +1,4 @@
-function findStein(gameNr, roundNr)
+function matrix = findStein(gameNr, roundNr)
 
     ft = filenameText(gameNr, roundNr);
     centers = dlmread(fullfile('assets/Hough/', ['HT', ft]));
@@ -26,7 +26,7 @@ function findStein(gameNr, roundNr)
         end
     end
     
-   matrix = stonesTo333(stones)
+   matrix = stonesTo333(stones);
    dlmwrite(fullfile('assets/score/', ['M', ft]),matrix);
     
 end
