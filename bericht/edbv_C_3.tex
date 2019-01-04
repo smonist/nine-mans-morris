@@ -142,13 +142,62 @@ Bei der Verwendung von Latex gestaltet sich das Zitieren besonders einfach - sie
 
 %%------------------------------------------------------
 \section{Implementierung}
-(1-X Seiten)\\
-Hier gebt ihr einen Überblick über Eure Implementierung:\\
-Wie habt ihr die im vorhergehenden Abschnitt vorgestellte Methodik praktisch umgesetzt? Wie werden die einzelnen Methoden kombiniert (zB. Implementierungspipeline)?\\
-Hier ist Platz für Implementierungsdetails wie zB. gewählte Parameter. \\
-Wie startet der User das Programm? Welche Parameter hat der User zu setzen?\\
-Auch in diesem Abschnitt können Referenzen und Zitate notwendig sein.\\
-\textbf{Wichtig in diesem Abschnitt ist, dass der Leser Eures Berichts versteht wie ihr Euer Projekt in MATLAB umgesetzt habt um sich auch im Quelltext leichter zurechtfinden zu können.}
+Die Implementierungspipeline sieht so aus, dass zuerst die Eckpunkte des Spielfelds mittels  einem Threshold erkannt werden. Die Eckpunkte werden dann verwendet, um das Spielfeld wieder zu einem perfekten Quadrat zu entzerren. Die Kanten des entzerrten Spielfelds werden mithilfe eines Canny Filters erkannt. Dabei sind nur die Kanten der Spielsteine wichtig da diese bei der Kreiserkennung verwendet werden. Der nächste Schritt ist, die Anwendung einer Hough Kreiserkennung auf das Canny Kantenbild, um die Position der Spielsteine zu ermitteln. Danach werden mit einer eigens endwickelten Methode die Spielsteine auf ein virtuelles, aus einem 3 x 3 x 3 Array bestehendes, Spielfeld gelegt. Der letzte Schritt ist der Vergleich von zwei Zügen (Bildern) und das Entscheiden ob dieser Zug gültig war. Dieser Schritt wird ebenfalls mit einem eigens endwickelten Algorithmus gelöst.
+
+\subsection{Framework}
+Das Framework ist so aufgebaut, dass alle 6 Methoden in einer Datei hintereinander, in einer for-Schleife, aufgerufen werden. Die Schleife läuft alle Bilder eins Spiels ab wobei es egal ist aus wie vielen Zügen ein Spiel besteht. Jede Methode liest jeweils ein Bild ein, verarbeitet dieses und speichert zum Schluss das verarbeitete Bild wieder ab.\\
+In der Datei „main.m“ kann der User die Variable „game“ in Zeile 2 auf einen positiven Integer ändern, um auszuwählen welches Spiel analysiert werden soll. Ein weiterer Parameter, der vom User verändert werden kann, ist der Threshold, ebenfalls in der Datei „main.m“. Das Verändern der  Variable „threshold“ auf einen Wert zwischen 0 und 1 verändert die Stärke des Thresholds.\\
+Um das Programm zu starten, muss der User lediglich die Datei „main.m“ in Matlab ausführen. Standardmäßig wird das erste Spiel im Datensatz komplett analysiert. Das Ergebnis wird in der Konsole ausgegeben. Dort kann der User sehen ob und wann unerlaubte Spielzüge auftreten.\\
+
+\subsection{Threshold und Eckenerkennung}
+Diese Methode liest RGB Bilder ein und gibt die 4 Eckpunkte des Spielfelds zurück. Außerdem wird das threshold Bild abgespeichert.\\
+Als ersten Schritt wird das eingelesen Bild mittels der Matlab Methode „rgb2gray“ in ein Graustufenbild umgewandelt. Danach wird das Graustufenbild in ein Binärbild, mit der Methode „imbinarize“ und dem vom User definiertem threshold Wert, umgewandelt. Das Anwenden dieser 2 Methoden hintereinander hat bei unseren Tests bessere Ergebnisse erzielt als das alleinige Anwenden der Methode „imbinarize“. Um das Bild etwas zu säubern wird es anschließend mit einem  4 Pixel breitem kubischen Strukturelement erodiert. Das Ergebnis ist ein Binärbild in dem das Spielbrett weiß ist und der Hintergrund schwarz.\\
+Mithilfe des Binärbildes können die Eckpunkte ermittelt werden. Es wird die Methode „find“ in Kombination mit „min“ und „max“ verwendet, um jeweils das erste und letzte weiße Pixel in einer Reihe und Spalte zu finden. Die roten Striche in dem nachfolgenden Bild sind jeweils auf Höhe des ersten weißen Pixels in +x, -x, +y und -y Richtung. Mithilfe von „min“ und „max“ können bei Koordinate der 4 Eckpunkte errechnet werden. Diese werden in einem Array abgespeichert und zurückgegeben.\\
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=8cm]{Spielbrett_Entzerrt.png}\\
+	\caption[Spielfeld entzerrt]{Spielfeld entzerrt}
+	\label{fig:nettop}
+\end{figure}
+
+\subsection{Geometrische Transformation}
+Diese Methode liest das originale RGB Bild ein und bekommt die 4 Eckpunkte übergeben. Das Ergebnis ist ein 500 x 500 Pixel RGB Bild mit dem entzerrten Spielfeld wie man es an der nachfolgenden Bild sehen kann.\\
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=8cm]{Ecken.png}\\
+	\caption[Eckenerkennung]{Eckenerkennung}
+	\label{fig:nettop}
+\end{figure}
+
+Geometrische Transformation ist der Überbegriff für viele verschiedene Anwendungen. In diesem Fall ist aber das entzerren eins perspektivischen Quadrates gemeint. Dazu werden die Eckpunkte des verzerrten Quadrates und die Größe des Quadrates in entzerrter Form benötigt. Nach dem Entzerren wird ein 500 x 500 Pixel Quadrat ausgeschnitten und abgespeichert\\
+Zuerst muss die Transformationmatrix errechnet werden. Diese wird dann auf das verzerrte Bild angewendet, um dieses zu entzerren. Das Ergebnis ist ein Bild, in dem die 4 vorher definierten Punkte ein perfektes Quadrat bilden.\\
+Die Koordinaten der jeweiligen Pixel ändern sich von Weltkoordinaten in Intrinsische Koordinaten nach der Transformation. Damit man das entzerrte Quadrat an den Eckpunkten ausschneiden kann, müssen die Eckpunkte zuerst in Intrinsische Koordinaten umgewandelt werden. Die Methode „imcrop“ mit den umgewandelten Koordinaten wird verwendet, um das Quadrat auszuschneiden. Das Ergebnis wird Abgespeichert.\\
+
+\subsection{Canny Kantenerkennung}
+Diese Methode liest ein entzerrte 500 x 500 Pixel RGB Bild ein und Speichert das dazugehörige Kantenbild ab.\\
+Die Kantenerkennung nach Canny besteht aus einer Reihe von Schritten oftmals beginnend mit dem Anwenden eines Gauß’schen Weichzeichners auf das gesamte Bild. Weil das Spielfeld sehr klare Linien und Formen hat würde ein Weichzeichner das Ergebnis kaum verbessern, deshalb wird dieser Schritt in dieser Implementierung ausgelassen.\\
+Der erste Schritt ist das Errechnen der Kantenkraft (wird für spätere Schritte benötigt), auch Magnitude genannt, indem man den Verlauf des Bildes mithilfe einer Sobel Matrix ausrechnet. Dieser Schritt muss jeweils in x- und y-Richtung durchgeführt werden.\\ 
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=8cm]{Sobel.png}\\
+	\caption[Sobel Matrix]{Sobel Matrix}
+	\label{fig:nettop}
+\end{figure}
+
+Die Länge der Hypotenuse der beiden Ankatheten Gx und Gy ist gleichzeitig auch die Magnitude.\\
+Der nächste Schritt ist das Thresholding. Bei diesem Schritt werden Kantenpixel mit einem schwachen Magnitude Wert ausgefiltert. Das Ergebnis ist ein Kantenbild das nur starke Kanten enthält.\\
+Der Letzte Schritt ist das Thinning, bei dem die Dicke der erkannten Kanten auf ein Pixel reduziert wird.\\
+
+\subsection{Hough Kreiserkennung}
+
+\subsection{findStein.m}
+
+\subsection{Spiel Algorithms}
+
+
 %%------------------------------------------------------
 
 %%------------------------------------------------------
