@@ -1,8 +1,6 @@
-function hough(gameNr, roundNr)
+function [center] = hough(gameNr, roundNr, radiusMin, radiusMax)
     f = filename(gameNr, roundNr);
     ft = filenameText(gameNr, roundNr); 
-    radiusMin = 15; %durchschnittlicher radius der Kreise im entzerrten Bild = 20px
-    radiusMax = 25; 
     intersect = 35; 
     border = 13;  
     
