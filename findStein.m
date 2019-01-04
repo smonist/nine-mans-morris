@@ -4,7 +4,6 @@ function matrix = findStein(gameNr, roundNr, centers)
     %centers = dlmread(fullfile('assets/Hough/', ['HT', ft]));
     centersize = size(centers);
     
-    
     % if file is not emty
     if centersize(1) ~= 0 
         f = filename(gameNr, roundNr);
