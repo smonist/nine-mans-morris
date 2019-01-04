@@ -140,7 +140,7 @@ Bei der Verwendung von Latex gestaltet sich das Zitieren besonders einfach - sie
 \textbf{Wichtig in diesem Abschnitt ist, dass sich der Leser Eures Berichts mit den verwendeten Methodiken auskennt und weiß, weshalb ihr diese Methodiken verwendet habt und keine anderen. Es soll dem Leser helfen den nächsten Abschnitt des Berichts besser zu verstehen.}
 \\
 \\
-\subsection{Kreis Hough Transformation}
+\subsection{Hough Transformation für Kreise}
 Zur erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
 Die Kreis Hough Transformation ist ein übliches verfahren zum erkennen von Kreisen und deren Mittelpunkte. Das verfahren benötigt zur erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten die auf dem gesuchten Kreis liegen. 
 	\footnote{\label{houghnote2} T.J Atherton, D.J. Kerbyson. "Size invariant circle detection." Image and Vision Computing. 
@@ -161,7 +161,7 @@ Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c
 	\label{fig:hough2d}
 \end{figure}
 
-Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem radius  \(c\).\footref{houghnote1}
+Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).\footref{houghnote1}
 \\
 \\
 Visualisiert man die Potenziellen Kreismittelpunkte des Kantenpunktes als gerade Kreiszilinder im dreidimensionalens Hough-Raum, so repräsentiert der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius\( c\).
