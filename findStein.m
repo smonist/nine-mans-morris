@@ -4,6 +4,11 @@ function matrix = findStein(gameNr, roundNr)
     centers = dlmread(fullfile('assets/Hough/', ['HT', ft]));
     centersize = size(centers);
     
+    
+    % if file is not emty
+    if centersize(1) ~= 0 
+    
+    
     f = filename(gameNr, roundNr);
     img = imread(['assets/geometric_transformation/G' f]);
     img = rgb2gray(img); 
@@ -13,7 +18,7 @@ function matrix = findStein(gameNr, roundNr)
      
     Middles = [ 50 50 ; 50 250; 50 450;         250 450; 450 450; 450 250;      450 50 ; 250 50 ;
                 110 105; 110 250; 110,400;      250,400 ; 390,400 ; 390,250;    390,110 ; 250,110;
-                180, 180 ; 180,250 ; 180,310;   250,315 ; 310,315 ;310,250;   310, 180 ; 250,180];
+                180, 180 ; 180,250 ; 180,310;   250,315 ; 310,315 ;310,250;     310, 180 ; 250,180];
     
     stones = zeros(1, 24);
     
@@ -26,9 +31,15 @@ function matrix = findStein(gameNr, roundNr)
         end
     end
     
-   matrix = stonesTo333(stones);
-   dlmwrite(fullfile('assets/score/', ['M', ft]),matrix);
+   matrix = stonesTo333(stones);    
+    else
+        % keine spiele am feld da fileemty -> leere matrix übergeben
+        matrix = zeros(3,3,3);
+
+    end
     
+    dlmwrite(fullfile('assets/score/', ['M', ft]),matrix);
+
 end
 
 function [d] = distance(p1, p2)
@@ -40,14 +51,21 @@ end
 function color = checkColor(img , center)
 
     colorImage = img(center(1), center(2));     %TODO hier evtl statt einem pixel alle 8 nachbarpixel nehmen und average bilden
-
-     if(colorImage < 80) 
+    offset = 5;
+    %oben und unten u recht u links eins
+    up = img(center(1)+offset, center(2));
+    down =img(center(1)-offset, center(2));
+    right =img(center(1), center(2)+offset);
+    left = img(center(1), center(2)-offset);
+     
+    
+    if((colorImage < 80 && up < 80 && down < 80 && right < 80 && left < 80)) 
         color = 1;  
      else
-         if (colorImage > 180)
+         if (colorImage > 180 && up > 180 && down > 180 && right > 180 && left > 180)
             color = 2; 
-         else 
-            color = 3; 
+         else
+              color = 3; 
          end 
      end 
 
