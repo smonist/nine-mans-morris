@@ -138,6 +138,42 @@ Die erwähnten Methoden werden zum größten Teil auf Beschreibungen in Büchern
 Ein Beispielsatz (inkl. entsprechender Literaturangabe am Ende des Berichts): Interest Points wurden mittels Scale Invariant Feature Transform \cite{lowe2004} detektiert.\\
 Bei der Verwendung von Latex gestaltet sich das Zitieren besonders einfach - siehe Beispielssatz im Source der Latex-Vorlage.\\
 \textbf{Wichtig in diesem Abschnitt ist, dass sich der Leser Eures Berichts mit den verwendeten Methodiken auskennt und weiß, weshalb ihr diese Methodiken verwendet habt und keine anderen. Es soll dem Leser helfen den nächsten Abschnitt des Berichts besser zu verstehen.}
+\\
+\\
+\subsection{Kreis Hough Transformation}
+Zur erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
+Die Kreis Hough Transformation ist ein übliches verfahren zum erkennen von Kreisen und deren Mittelpunkte. Das verfahren benötigt zur erkennung eines Kreises mit dem Radius c ein Set an Kantenpunkten die auf dem gesuchten Kreis liegen. 
+	\footnote{\label{houghnote2} T.J Atherton, D.J. Kerbyson. "Size invariant circle detection." Image and Vision Computing. 
+	Volume 17, Number 11, 1999, pp. 795-803.}\\
+In einem Zweidimensionalen Raum kann ein Kreis mithilfe von \\
+\begin{equation}
+(x - a)^2 +(y - b)^2 = c^2 
+\end{equation} 
+beschrieben werden. \footnote{\label{houghnote1}R.O. Duda, P.E. Hart, Use of the Hough Transform to Detect Lines and Curves in Pictures, Communications of the ACM 15 (1972) 11– 15.
+}\\
+Wobei der Punkt (x,y) ein Kantenpunkt auf dem Kreis ist, (a,b) der Kreismittelpunkt und c der Radius des Kreises.\\
+\\
+
+
+Liegt eine Punkt (x,y) auf einem Kreis im Eingabebild und ist der Radius c bekannt so k\"onnen alle Potenziellen Kreismittelpunkte (a,b) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
+\\
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=6cm]{2dhough_darstellung.png}\\
+	\caption[Funktion von Hough bei bekanntem Radius]{Funktion von Hough bei bekanntem Radius\footref{houghnote2}}
+	\label{fig:hough2d}
+\end{figure}
+
+Wenn ein Punkt (a,b,c) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt (a,b) und dem radius c.\footref{houghnote1}
+\\
+\\
+Visualisiert man die Potenziellen Kreismittelpunkte des Kantenpunktes als gerade Kreiszilinder im dreidimensionalens Hough-Raum, so repräsentiert der Schnittpunkt (a,b,c) von Maximal vielen Zylindern den gefundenen Kreismittelpunkt (a,b) mit dem Radius c.
+
+
+
+
+
+
 %%------------------------------------------------------
 
 %%------------------------------------------------------
