@@ -230,8 +230,8 @@ Um die Kreismittelpunkte zu finden liest die Funktion das Kantenbild des Aktuell
 Die Funktion hough ruft für alle ganzzahliegen Radien (\(radiusMin \leq r \leq radiusMax\)) die Funktion hufffixedRadius auf und speichert alle gefundenen Mittelpunkte, unabhängig des Radiuses in einer einzigen Matrix (Radius wird nicht gespeichert da er für nächsten Schritte irrelevant ist).\\
 \\
 
-HoughFixed Radius
-Hier wird über jedes Pixel des Kantenbildes iteriert. Falls das Pixel den Wert 1 hat, also ein Kantenpixel ist, werden m  viele potenzielle Kreismittelpunkte \((hy, hx)\)  abgeschlagen. Diese Punkte berechnen sich durch:  
+
+In der Funktion \(HoughFixedRadius\) wird über jedes Pixel des Kantenbildes iteriert. Falls das Pixel den Wert 1 hat, also ein Kantenpixel ist, werden m  viele potenzielle Kreismittelpunkte \((hy, hx)\)  abgeschlagen. Diese Punkte berechnen sich durch:  
 \begin{equation}
 hx = x + radius * cos(t)
 \end{equation}
