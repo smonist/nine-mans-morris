@@ -12,11 +12,11 @@
      alfa=0.1;
      
 % Get the initial image lena.gif
-img=imread('G1_1.jpg');               
+img=imread('G1_1.jpg');
 w=rgb2gray(img);
 figure(1);colormap(gray);
 subplot(3,2,1);
-imshow(w);
+%imshow(w);
 title('Image: lena.gif');
 
 % X-axis direction edge detection
