@@ -1,4 +1,16 @@
 function canny(gameNr, roundNr)
+    %IMPORTANT LEGAL NOTICE
+    %.----------------.
+    %|                |
+    %|      /||\      |
+    %|     /_||_\     |
+    %| =m==========m= |
+    %|   /   ||   \   |
+    %|  /____||____\  |
+    %|                |
+    %'----------------'
+
+
     f = filename(gameNr, roundNr);
     img = imread(['assets/geometric_transformation/G' f]);
 
@@ -17,38 +29,69 @@ function canny(gameNr, roundNr)
     gradient = sqrt(sX.^2 + sY.^2);
     
     % Calculate direction
-    thetha = rad2deg(atan2(sX, sY));    
-    %thetha = rad2deg(atan(sY ./ sX));
+    theta = rad2deg(atan2(sX, sY));    
+    %theta = rad2deg(atan(sY ./ sX));
 
     % Rounding angles
     for i = 1:500
         for j = 1:500
                       
-            if thetha(i,j) < 22.5 && thetha(i,j) > -22.5 || thetha(i,j) > 157.5 || thetha(i,j) < -157.5
-				thetha(i,j) = 0;
+            if theta(i,j) < 22.5 && theta(i,j) > -22.5 || theta(i,j) > 157.5 || theta(i,j) < -157.5
+				theta(i,j) = 0;
                 
-			elseif thetha(i,j) > 22.5 && thetha(i,j) < 67.5 || thetha(i,j) < -112.5 && thetha(i,j) > -157.5
-				thetha(i,j) = 45;
+			elseif theta(i,j) > 22.5 && theta(i,j) < 67.5 || theta(i,j) < -112.5 && theta(i,j) > -157.5
+				theta(i,j) = 45;
                 
-			elseif thetha(i,j) > 67.5 && thetha(i,j) < 112.5 || thetha(i,j) < -67.5 && thetha(i,j) > -112.5
-				thetha(i,j) = 90;
+			elseif theta(i,j) > 67.5 && theta(i,j) < 112.5 || theta(i,j) < -67.5 && theta(i,j) > -112.5
+				theta(i,j) = 90;
                 
-			elseif thetha(i,j) > 112.5 && thetha(i,j) < 157.5 || thetha(i,j) < -22.5 && thetha(i,j) > -67.5
-				thetha(i,j) = 135;
+			elseif theta(i,j) > 112.5 && theta(i,j) < 157.5 || theta(i,j) < -22.5 && theta(i,j) > -67.5
+				theta(i,j) = 135;
             end
         end
     end
    
     % Thresholding
-    
     gradientMax = max(max(gradient));
     gradientMin = min(min(gradient));
     level = 0.25 * (gradientMax - gradientMin) + gradientMin;
     ibw = max(gradient, level .* ones(size(gradient)));
     
+    
+    %{
+    %NON MAX WUUUUUUUUUUUUUUUUT (???????)?
+    %(???????????)
+    I_temp = zeros(size(ibw, 1), size(ibw, 2));
+    [n,m] = size(ibw);
+    for i = 2:n - 1,
+        for j = 2:m - 1,
+            switch theta(i, j)
+                %horizontal edge = vertical filter ???
+                case 0
+                    I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i, j + 1), gradient(i, j - 1)]));
+                    
+                %diagonal edge = diagonal filter (???????)?
+                case 45
+                    I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j - 1), gradient(i - 1, j + 1)]));
+                
+                %vertical edge = horizontal filter ?[???]?
+                case 90
+                    I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j), gradient(i - 1, j)]));
+                
+                %diagonal edge = diagonal filter ?•?_?•?
+                case 135
+                    I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j + 1), gradient(i - 1, j - 1)]));
+            end
+        end
+    end
+    
+    I_temp = I_temp .* gradient;
+    
+    }%
+    
+    
+    
     % Thinning
-    
-    
     [n,m]=size(ibw);
     for i=2:n-1,
         for j=2:m-1,
@@ -76,6 +119,8 @@ function canny(gameNr, roundNr)
         end
     end
 
+    
+    
     imshow(I_temp);
     
     
