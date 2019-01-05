@@ -29,7 +29,8 @@
 \author{Tobias Batik (11701221)\\
 Bougouma Fall (01427956)\\
 Yannic Ellhotka (11776168)\\
-Simon Wesp (XXXXXXX)
+Lisalotte Tscherteu (0271430)\\
+Simon Wesp (11709457)
 }
 
 
@@ -204,7 +205,7 @@ Diese Methode liest das originale RGB Bild ein und bekommt die 4 Eckpunkte über
 	\label{fig:nettop}
 \end{figure}
 
-Geometrische Transformation ist der Überbegriff für viele verschiedene Anwendungen. In diesem Fall ist aber das entzerren eins perspektivischen Quadrates gemeint. Dazu werden die Eckpunkte des verzerrten Quadrates und die Größe des Quadrates in entzerrter Form benötigt. Nach dem Entzerren wird ein 500 x 500 Pixel Quadrat ausgeschnitten und abgespeichert\\
+Geometrische Transformation ist der Überbegriff für viele verschiedene Anwendungen. In diesem Fall ist aber das entzerren eins perspektivischen Quadrates gemeint. Dazu werden die Eckpunkte des verzerrten Quadrates und die Größe des Quadrates in entzerrter Form benötigt. Nach dem Entzerren wird ein 500 x 500 Pixel Quadrat ausgeschnitten und abgespeichert.\\
 Zuerst muss die Transformationmatrix errechnet werden. Diese wird dann auf das verzerrte Bild angewendet, um dieses zu entzerren. Das Ergebnis ist ein Bild, in dem die 4 vorher definierten Punkte ein perfektes Quadrat bilden.\\
 Die Koordinaten der jeweiligen Pixel ändern sich von Weltkoordinaten in Intrinsische Koordinaten nach der Transformation. Damit man das entzerrte Quadrat an den Eckpunkten ausschneiden kann, müssen die Eckpunkte zuerst in Intrinsische Koordinaten umgewandelt werden. Die Methode „imcrop“ mit den umgewandelten Koordinaten wird verwendet, um das Quadrat auszuschneiden. Das Ergebnis wird Abgespeichert.\\
 
