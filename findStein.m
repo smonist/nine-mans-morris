@@ -1,39 +1,36 @@
-function matrix = findStein(gameNr, roundNr)
+function matrix = findStein(gameNr, roundNr, centers)
 
     ft = filenameText(gameNr, roundNr);
-    centers = dlmread(fullfile('assets/Hough/', ['HT', ft]));
+    %centers = dlmread(fullfile('assets/Hough/', ['HT', ft]));
     centersize = size(centers);
-    
     
     % if file is not emty
     if centersize(1) ~= 0 
-    
-    
-    f = filename(gameNr, roundNr);
-    img = imread(['assets/geometric_transformation/G' f]);
-    img = rgb2gray(img); 
-    imshow(img); 
-    
-    maxdist = 25;   %kleinste distanze zwischen zwei feldern ist 60 pixel 
-     
-    Middles = [ 50 50 ; 50 250; 50 450;         250 450; 450 450; 450 250;      450 50 ; 250 50 ;
-                110 105; 110 250; 110,400;      250,400 ; 390,400 ; 390,250;    390,110 ; 250,110;
-                180, 180 ; 180,250 ; 180,310;   250,315 ; 310,315 ;310,250;     310, 180 ; 250,180];
-    
-    stones = zeros(1, 24);
-    
-    for j = 1:centersize(1)
-        for i = 1 : 24
-        dist = distance(Middles(i,:),centers(j, :));
-            if dist <= maxdist
-                stones(i)= checkColor(img, centers(j, :));
+        f = filename(gameNr, roundNr);
+        img = imread(['assets/geometric_transformation/G' f]);
+        img = rgb2gray(img); 
+        imshow(img); 
+
+        maxdist = 25;   %kleinste distanze zwischen zwei feldern ist 60 pixel 
+
+        Middles = [ 50 50 ; 50 250; 50 450;         250 450; 450 450; 450 250;      450 50 ; 250 50 ;
+                    110 105; 110 250; 110,400;      250,400 ; 390,400 ; 390,250;    390,110 ; 250,110;
+                    180, 180 ; 180,250 ; 180,310;   250,315 ; 310,315 ;310,250;     310, 180 ; 250,180];
+
+        stones = zeros(1, 24);
+
+        for j = 1:centersize(1)
+            for i = 1 : 24
+            dist = distance(Middles(i,:),centers(j, :));
+                if dist <= maxdist
+                    stones(i)= checkColor(img, centers(j, :));
+                end
             end
         end
-    end
-    
-   matrix = stonesTo333(stones);    
-    else
-        % keine spiele am feld da fileemty -> leere matrix übergeben
+
+       matrix = stonesTo333(stones);    
+     else
+        % keine spiele am feld da fileemty -> leere matrix ï¿½bergeben
         matrix = zeros(3,3,3);
 
     end

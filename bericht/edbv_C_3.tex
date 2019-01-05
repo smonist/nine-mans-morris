@@ -119,7 +119,7 @@ Wer hat welche Aufgaben übernommen (MATLAB-Funktionen, Abschnitt im Bericht, Ev
     \hline
   Name & Tätigkeiten\\
     \hline
-		Vorname1 Nachname1 & Matlab-Funktion A, Bericht Abschnitt B...\\
+		Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5\\
 		\hline
 		Vorname2 Nachname2 & Matlab-Funktion C, Bericht Abschnitt D...\\
 		\hline
@@ -225,6 +225,47 @@ Der nächste Schritt ist das Thresholding. Bei diesem Schritt werden Kantenpixel
 Der Letzte Schritt ist das Thinning, bei dem die Dicke der erkannten Kanten auf ein Pixel reduziert wird.\\
 
 \subsection{Hough Kreiserkennung}
+Die Funktion hough findet die Kreismittelpunkte von Kreisen mit einem Radius \(r\), \(radiusMin \leq r \leq radiusMax \)  und gibt diese als \(n * 2\) Matrix zurück. 
+Um die Kreismittelpunkte zu finden liest die Funktion das Kantenbild des Aktuellen Spieles und Spielzug ein. \\
+Die Funktion hough ruft für alle ganzzahliegen Radien (\(radiusMin \leq r \leq radiusMax\)) die Funktion hufffixedRadius auf und speichert alle gefundenen Mittelpunkte, unabhängig des Radiuses in einer einzigen Matrix (Radius wird nicht gespeichert da er für nächsten Schritte irrelevant ist).\\
+\\
+
+
+In der Funktion \(HoughFixedRadius\) wird über jedes Pixel des Kantenbildes iteriert. Falls das Pixel den Wert 1 hat, also ein Kantenpixel ist, werden m  viele potenzielle Kreismittelpunkte \((hy, hx)\)  abgeschlagen. Diese Punkte berechnen sich durch:  
+\begin{equation}
+hx = x + radius * cos(t)
+\end{equation}
+\begin{equation}
+hy = y + radius *  sin(t)
+\end{equation}
+wobei \(t = (2\pi/m)*i\) ist. 
+Im zweidimensionales Hough-Raum wird an der Stelle \((hy, hx)\) der Wert um eins erhöht. Siehe Abbildung \ref{fig:houghfixed}.\\
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=8cm]{Huffexample3_16.jpg}\\
+	\caption[Hough-Raum bei Radius = 20px]{Hough-Raum bei Radius = 20px}
+	\label{fig:houghfixed}
+\end{figure}
+
+Anschließ end wird das Array auf Maxima untersucht. Da mehrere Kreise gefunden werden müssen, ist es nicht ausreichend das Array auf das Feld mit dem maximalen Wert zu bestimmen. Deshalb wird vom User der Wert \(minHoughValue\) gesetzt (zwischen 0 und 1). Ist der Wert \(minHoughValue = 0\) so wird jedes Feld im Hough-Raum als Kreismittelpunkt gedeutet deren Wert \(\geq 0\) ist. Ist \(minHoughValue = 1\) so werden nur jene Felder als Kreismittelpunkte aufgefasst deren Wert \(\geq amountCenterPoints\) ist.  Falls ein Feld im Hough-Raum als Kreismittelpunkt aufgefasst wird, wird die Position in einem Array gespeichert. \\
+\\
+Falls der Wert amountCenterPoints niedrieg gewählt wurde oder das eingelesene Kantenbild teilweise fehlerhaft ist. So kann es passieren das mehrer (leicht unterschiedliche) Kreismittelpunkte für den selben Kreis gefunden werden. Da nur die Mittelpunkte der Spielsteine relevant sind, wir davon ausgehen das alle Spielsteine annähernd gleich groß sind und dass nie zwei Spielsteine übereinander liegen dürfen, können alle gefundenen Kreismittelpunkte \((y_{j}, x_{j})\) deren Distanze \(d\) zum Kreismittelpunkt \((y_{i}, x_{i}) < Radius\) ist gelöscht werden. \\
+
+Außerdem müssen wir beim Eingabebild voraussetzen, dass kein Runder gegenstand am Spielfeld liegt deren Radius \(r\)  \(radiusMin \leq r \leq radiusMax\) ist. 
+Anschließend gibt die Funktion HoughFixedRadius alle gefundenen Kreismittelpunkte für den vorgegeben Radius zurück. \\
+
+Da Handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen dürfen löschen wir wieder alle doppelt gefundenen Mittelpunkte. Mittelpunkte werden als Doppelt angesehn wenn die distanze zwischen den zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
+
+Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Kordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=8cm]{hough_performance.jpg}\\
+	\caption[Gefundenen Kreismittelpunkte (rot) über dem entzerrten Graustuffenbild des Spielfeldes]{Gefundenen Kreismittelpunkte (rot) über dem entzerrten Graustuffenbild des Spielfeldes}
+	\label{fig:hougresult}
+\end{figure}
+
 
 \subsection{findStein.m}
 

@@ -1,17 +1,14 @@
-function hough(gameNr, roundNr)
+function [center] = hough(gameNr, roundNr, radiusMin, radiusMax, amountCenterPoints, minHoughValue)
     f = filename(gameNr, roundNr);
     ft = filenameText(gameNr, roundNr); 
-    radiusMin = 15; %durchschnittlicher radius der Kreise im entzerrten Bild = 20px
-    radiusMax = 25; 
-    intersect = 35; 
-    border = 13;  
+    border = minHoughValue * amountCenterPoints;
     
     img = imread(['assets/Canny/E' f]);
     img = imbinarize(img); 
 
     center = [1000,1000];   %Matrix which stores all potential midpoints. 
     for i=radiusMin:radiusMax
-        centertmp = hufffixedRadius(i,img,intersect, border);
+        centertmp = houghfixedRadius(i,img,amountCenterPoints, border);
         center = [center;centertmp]; %adds another midpoints to the Matrix. 
     end 
     center = deletDouble(center, radiusMin); %delets all midpoints which are close together. 
@@ -29,10 +26,10 @@ function hough(gameNr, roundNr)
 end 
 
 
-function [center] = hufffixedRadius(radius, edge, intersect, border) 
+function [center] = houghfixedRadius(radius, edge, amountCenterPoints, border) 
     [rows, columns] = size(edge);
-    step = pi*2/intersect;
-    huff = zeros(500, 500); 
+    step = pi*2/amountCenterPoints;
+    hough = zeros(500, 500); 
     if (border > 0) 
         for y=1:rows
             for x=1:columns
@@ -42,7 +39,7 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
                         hy = int16(y + radius *  sin(t));
                         if (hx < 500 && hx > 0)
                             if (hy > 0 && hy < 500)
-                               huff(hy,hx) = huff(hy,hx)+1;
+                               hough(hy,hx) = hough(hy,hx)+1;
                             end 
                         end 
                    end 
@@ -53,7 +50,7 @@ function [center] = hufffixedRadius(radius, edge, intersect, border)
         center = [10000,100000]; 
         for y=1:rows
             for x=1:columns
-                if(huff(y,x) >= border) %wenn punkt wert hoch genug ist als Mittelpunkt hinzufügen
+                if(hough(y,x) >= border) %wenn punkt wert hoch genug ist als Mittelpunkt hinzufügen
                     center = [center;y x];
                 end 
             end 
@@ -86,7 +83,6 @@ function [center] = deletDouble(center,radius)
         i = i+1; 
     end
 end 
-
 
 %calculates the distance between two points 
 function [d] = distance(p1, p2)
