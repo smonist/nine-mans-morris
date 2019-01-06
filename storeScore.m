@@ -5,12 +5,15 @@ function storeScore(gameNr, roundNr, score)
     if roundNr == 1 
         fid = fopen(fullfile('assets/out/', ['M', ft]),'wt');
         fprintf(fid, '  **** nine-mans-morris **** \n \n  Game Nr.: %d \n \n', gameNr);
+        %fprintf('  **** nine-mans-morris **** \n \n  Game Nr.: %d \n \n', gameNr);
         fclose(fid);
     else
         stones= matrixToscore(score);
         fid = fopen(fullfile('assets/out/', ['M', ft]),'a+');
         fprintf(fid, '  ----------------------- \n  **** Round Nr.: %d **** \n \n ', roundNr);
         fprintf(fid,    '  %c --------- %c --------- %c \n   |           |           | \n   |    %c------%c-------%c   | \n   |    |      |       |   | \n   |    |   %c--%c--%c    |   | \n   |    |   |  |  |    |   | \n   %c----%c---%c-----%c----%c---%c \n   |    |   |  |  |    |   | \n   |    |   %c--%c--%c    |   | \n   |    |      |       |   | \n   |    %c------%c-------%c   | \n   |           |           | \n   %c --------- %c --------- %c \n \n', stones);
+        %fprintf('  ----------------------- \n  **** Round Nr.: %d **** \n \n ', roundNr);
+        %fprintf('  %c --------- %c --------- %c \n   |           |           | \n   |    %c------%c-------%c   | \n   |    |      |       |   | \n   |    |   %c--%c--%c    |   | \n   |    |   |  |  |    |   | \n   %c----%c---%c-----%c----%c---%c \n   |    |   |  |  |    |   | \n   |    |   %c--%c--%c    |   | \n   |    |      |       |   | \n   |    %c------%c-------%c   | \n   |           |           | \n   %c --------- %c --------- %c \n \n', stones);
         
         fclose(fid);
     end
