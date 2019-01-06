@@ -92,8 +92,8 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 
 \subsection{Evaluierungsfragen}
 1. Wird das Spielfeld richtig eingelesen?\\
-2. Wird ein gültiger Spielzug vorhergesagt?\\
-3. Wird ein gültiges Spiel als solches erkannt?\\
+%2. Wird ein gültiger Spielzug vorhergesagt?\\
+2. Wird ein gültiges Spiel als solches erkannt?\\
 \subsection{Zeitplan}
 
 \begin{table}[h!]
@@ -110,9 +110,9 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 				Framework &15.10 &2.10 & X & 10\\
 		\hline	
-				Threshold und Eckenerkennung & 15.11 & 21.11 & 30 &...\\
+				Threshold und Eckenerkennung & 15.11 & 21.11 & 30 &35\\
 		\hline	
-				Geometrische Transformation & 29.11 & 5.12 & 70 &...\\
+				Geometrische Transformation & 29.11 & 5.12 & 70 &60\\
 		\hline	
 				Canny Kantenerkennung & 12.12 & 16.12 & 25 & 35\\
 		\hline	
@@ -126,7 +126,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 				textueller Output & 28.12 &  3.1 &..&... \\
 		\hline 
-				Analyse &... &... &... &...\\
+				Analyse \& Evaluierung & X & 6.1 & X & 10\\
 		\hline
 				Bericht & 6.1 & 6.1 & 40 & 45\\
 		\hline
@@ -141,15 +141,15 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
   Name & Tätigkeiten\\
     \hline
-			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5\\
+			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1\\
 		\hline
 			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7\\
 		\hline
-			Yannic Ellhotka & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
+			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
-			Lisalotte Tscherteu & Matlab-Funktion: findStein, scoreStore, Bericht Abschnitt: 4.6\\
+			Lisalotte Tscherteu & Matlab-Funktion: findStein.m, hough teilweise; Bericht Abschnitt 4.6, Plakat\\
 		\hline
-			Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
+			Simon Wesp & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
   \end{tabular}
 \end{center}
@@ -204,6 +204,18 @@ Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidim
 Zur Erkennung der Gültigkeit eines Spielzuges werden die Daten des Spielfelds vor und nach dem Zug verglichen. Falls ein unterschied erkannt wird, welcher in einem Zug nicht möglich wäre, wird die Nummer des Zuges sowie die Daten des Spielfelds vor und nach dem Zug ausgegeben. Somit kann überprüft werden ob es sich in dem Zug tatsächlich um einen ungültigen Spielzug handelt, oder ob ein Stein nicht richtig erkannt wurde.
 Der Algorithmus wird ab dem 2. geladenen Bild nach jedem Bild einmal aufgerufen um die Korrektheit des jetzigen Zuges zu überprüfen.
 
+
+\subsection{Farberkennung}
+Die Farberkennung muss zwischen annähernd Weiß und Schwarz unterscheiden müssen. \\
+Es reicht das entzerrte Bild als Grauwertbild auszulesen. Die Pixel der Kreismittelpunkte
+werden mit 4 umliegend gemittelt und anschließend mit einem Schwellwert verglichen.\\
+Grauwerte unter 80 stufen wir als Schwarz ein, über 50 als Weiß.
+
+\subsection{Spielfeldpositionserkennung}
+Die Position an der sich ein Stein befindet wird ermittelt, indem die erkannten Kreismittelpunkte
+mit den zuvor gespeicherten Koodinaten der Spielfeldpsitionen verglichen werden.\\
+Dafür werden die Distanzen zu allen Positionen ermittelt, 
+wenn die Distanz kleiner ist als ein Schwellert,  wird er an dieser Position erkannt und gespeichert.
 %%------------------------------------------------------
 
 %%------------------------------------------------------
@@ -299,7 +311,7 @@ Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert si
 \end{figure}
 
 
-\subsection{Farberkennung und Spielfeldposition}
+\subsection{findStein.m}
 Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
 Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
 Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
@@ -327,22 +339,40 @@ Zur Evaluierung gehört auch das Testen der einzelnen Methodiken (separat), mit 
 \subsection{Datensatz}
 Anzahl der Bilder: 101
 Größe der Bilder: 2000 x 2667 Pixel
-Quelle des Datensatzes: selbst aufgenommen, Smartphonekamera, regelmäßge Ausleuchtung, keine harten Schatten, einfärbiger Hintergrund
+Quelle des Datensatzes: selbst aufgenommen, Smartphonekamera, regelmäßge Ausleuchtung, keine harten Schatten, einfärbiger Hintergrund.\\
 
 \subsection{Evaluierungsfragen}
-<<<<<<< HEAD
-1. Wird das Spielfeld richtig eingelesen? \\
-Note: Game 3: 9 weiße Steine wurden nicht erkannt. von 24
-Game 4: selber datensatz nur kontrast erhöht 5 steine nicht gefunden. 
 
-=======
-1. Wird das Spielfeld richtig eingelesen?\\
+\textbf{1. Wird das Spielfeld richtig eingelesen?} \\
+Beim Spiel 1 wurden von 450 Spielsteinen, 2 Spielsteine nicht richtig erkannt. Ein Schwarzer und ein Weißer. Das ist eine Fehlerquote von 0.4 \%. \\
+\\
+Beim Spiel 2 wurden von 472 Spielsteinen 17 Spielsteine nicht richtig erkannt. Das ist eine Fehlerquote von 3 \%. Hier handelt es sich nur um Schwarze Spielsteine, die im oberen Bereich des Spielfeldes Platziert wurde. Hier werden zwar die Mittelpunkte der Kreise korrekt erkannt, jedoch können die steine nicht eindeutig einer Farbe zugeordnet werden. Das liegt an den starken Reflexionen auf den Spielsteinen liegen. \\ 
+\\
+Der Grund warum die Spielsteine im Game 1 schlechter erkannt wurden als im Game 2 liegt nicht an der Perspektive der Bilder, sondern an der veränderten Lichtsituation. Beim Spiel 2 wurde ein härteres und stärkeres Licht verwendet. \\
+\\
+Bei Game 3 wurden von 43 Spielsteinen 9 weiße Steine nicht richtig erkannt. Hier ist das Spielfeld weiß und aufgrund des geringen Kontrastes zu den Spielsteinen konnten die Kanten nicht richtig detektiert werden. Die schwarzen Spielsteine wurden allerdings ohne Fehler erkannt. \\
+\\
+Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde allerdings der Kontrast im Nachhinein erhöht (Photoshop). Aufgrund dieser Bearbeitung wurden nur noch 5 weiße Steine nicht Korrekt erkannt. Das ist eine Quote von 11 \%.
+\\
+
+%Note: Game 1: 2 spielsteine nicht gefunden 1 Weißer 1 Schwarzer
+%Game 2: Game 2: 17 Spielsteine. Aber immer 3 an der selben Position 
+%Game 3: 9 weiße Steine wurden nicht erkannt. von 24
+%Game 4: selber datensatz nur kontrast erhöht 5 steine nicht gefunden. 
 
 
-2. Wird ein gültiger Spielzug vorhergesagt?
->>>>>>> 3d2263f5f8acdb34d15457647f2ef97e801caca2
+%\textbf{2. Wird ein gültiger Spielzug vorhergesagt?}
+\textbf{2. Wird ein gültiges Spiel als solches erkannt?}
+\\
 
-2. Wird ein gültiger Spielzug vorhergesagt?
+
+\textbf{Hough Kreiserkennung}\\
+Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergäbenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunk des Spielsteines abweicht. Das ist warscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
+\\
+Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurück zu führen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
+  
+\textbf{findstein.m} \\
+
 
 %%------------------------------------------------------
 
