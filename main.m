@@ -1,5 +1,5 @@
 %game: int
-game = 3;
+game = 1;
 
 %threshold: float <= 1 && >= 0
 custom_threshold = 0.5;
