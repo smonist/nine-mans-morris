@@ -134,19 +134,19 @@ Wer hat welche Aufgaben übernommen (MATLAB-Funktionen, Abschnitt im Bericht, Ev
 \section{Methodik}
 
 \subsection{Hough Transformation für Kreise}
-Zur erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
+Zur Erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
 \\
-Die Kreis Hough Transformation ist ein übliches verfahren zum erkennen von Kreisen und deren Mittelpunkte. Das verfahren benötigt zur erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten die auf dem gesuchten Kreis liegen. 
+Die Kreis-Hough-Transformation ist ein übliches Verfahren zum Erkennen von Kreisen und deren Mittelpunkte. Das Verfahren benötigt zur Erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten, die auf dem gesuchten Kreis liegen.
 	\footnote{\label{houghnote2} T.J Atherton, D.J. Kerbyson. "Size invariant circle detection." Image and Vision Computing. 
 	Volume 17, Number 11, 1999, pp. 795-803.}\\
-In einem Zweidimensionalen Raum kann ein Kreis mithilfe von \\
+In einem zweidimensionalen Raum kann ein Kreis mithilfe von \\
 \begin{equation}
 (x - a)^2 +(y - b)^2 = c^2 
 \end{equation} 
 beschrieben werden. \footnote{\label{houghnote1}R.O. Duda, P.E. Hart, Use of the Hough Transform to Detect Lines and Curves in Pictures, Communications of the ACM 15 (1972) 11– 15.
-} Wobei der Punkt \((x,y) \)ein Kantenpunkt auf dem Kreis ist, \((a,b)\) der Kreismittelpunkt und \(c\) der Radius des Kreises.\\
+} Wobei der Punkt \((x,y) \) ein Kantenpunkt auf dem Kreis ist, \((a,b)\) der Kreismittelpunkt und \(c\) der Radius des Kreises.\\
 
-Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle Potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator-Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
+Liegt ein Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator-Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
 
 \begin{figure}[ht]
 	\centering
@@ -158,18 +158,18 @@ Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c
 Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).\footref{houghnote1}
 \\
 \\
-Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt. Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern, repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
+Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt. Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
 
 %%------------------------------------------------------
 
 %%------------------------------------------------------
 \section{Implementierung}
-Die Implementierungspipeline sieht so aus, dass zuerst die Eckpunkte des Spielfelds mittels  einem Threshold erkannt werden. Die Eckpunkte werden dann verwendet, um das Spielfeld wieder zu einem perfekten Quadrat zu entzerren. Die Kanten des entzerrten Spielfelds werden mithilfe eines Canny Filters erkannt. Dabei sind nur die Kanten der Spielsteine wichtig da diese bei der Kreiserkennung verwendet werden. Der nächste Schritt ist, die Anwendung einer Hough Kreiserkennung auf das Canny Kantenbild, um die Position der Spielsteine zu ermitteln. Danach werden mit einer eigens endwickelten Methode die Spielsteine auf ein virtuelles, aus einem 3 x 3 x 3 Array bestehendes, Spielfeld gelegt. Der letzte Schritt ist der Vergleich von zwei Zügen (Bildern) und das Entscheiden ob dieser Zug gültig war. Dieser Schritt wird ebenfalls mit einem eigens endwickelten Algorithmus gelöst.
+Die Implementierungspipeline sieht so aus, dass zuerst die Eckpunkte des Spielfelds mittels  einem Threshold erkannt werden. Die Eckpunkte werden dann verwendet, um das Spielfeld wieder zu einem perfekten Quadrat zu entzerren. Die Kanten des entzerrten Spielfelds werden mithilfe eines Canny Filters erkannt. Dabei sind nur die Kanten der Spielsteine wichtig, da diese bei der Kreiserkennung verwendet werden. Der nächste Schritt ist, die Anwendung einer Hough Kreiserkennung auf das Canny Kantenbild, um die Position der Spielsteine zu ermitteln. Danach werden mit einer eigens endwickelten Methode die Spielsteine auf ein virtuelles, aus einem 3 x 3 x 3 Array bestehendes, Spielfeld gelegt. Der letzte Schritt ist der Vergleich von zwei Zügen (Bildern) und das Entscheiden, ob dieser Zug gültig war. Dieser Schritt wird ebenfalls mit einem eigens entwickelten Algorithmus gelöst.
 
 \subsection{Framework}
-Das Framework ist so aufgebaut, dass alle 6 Methoden in einer Datei hintereinander, in einer for-Schleife, aufgerufen werden. Die Schleife läuft alle Bilder eins Spiels ab wobei es egal ist aus wie vielen Zügen ein Spiel besteht. Jede Methode liest jeweils ein Bild ein, verarbeitet dieses und speichert zum Schluss das verarbeitete Bild wieder ab.\\
-In der Datei „main.m“ kann der User die Variable „game“ in Zeile 2 auf einen positiven Integer ändern, um auszuwählen welches Spiel analysiert werden soll. Ein weiterer Parameter, der vom User verändert werden kann, ist der Threshold, ebenfalls in der Datei „main.m“. Das Verändern der  Variable „threshold“ auf einen Wert zwischen 0 und 1 verändert die Stärke des Thresholds.\\
-Um das Programm zu starten, muss der User lediglich die Datei „main.m“ in Matlab ausführen. Standardmäßig wird das erste Spiel im Datensatz komplett analysiert. Das Ergebnis wird in der Konsole ausgegeben. Dort kann der User sehen ob und wann unerlaubte Spielzüge auftreten.\\
+Das Framework ist so aufgebaut, dass alle 6 Methoden in einer Datei hintereinander, in einer for-Schleife, aufgerufen werden. Die Schleife läuft alle Bilder eines Spiels ab, wobei es egal ist, aus wie vielen Zügen ein Spiel besteht. Jede Methode liest jeweils ein Bild ein, verarbeitet dieses und speichert zum Schluss das verarbeitete Bild wieder ab.\\
+In der Datei „main.m“ kann der User die Variable „game“ in Zeile 2 auf einen positiven Integer ändern, um auszuwählen welches Spiel analysiert werden soll. Ein weiterer Parameter, der vom User verändert werden kann, ist der Threshold, ebenfalls in der Datei „main.m“. Das Verändern der Variable „threshold“ auf einen Wert zwischen 0 und 1 verändert die Stärke des Thresholds.\\
+Um das Programm zu starten, muss der User lediglich die Datei „main.m“ in Matlab ausführen. Standardmäßig wird das erste Spiel im Datensatz komplett analysiert. Das Ergebnis wird in der Konsole ausgegeben. Dort kann der User sehen, ob und wann unerlaubte Spielzüge auftreten.\\
 
 \subsection{Threshold und Eckenerkennung}
 Diese Methode liest RGB Bilder ein und gibt die 4 Eckpunkte des Spielfelds zurück. Außerdem wird das threshold Bild abgespeichert.\\
@@ -184,7 +184,7 @@ Mithilfe des Binärbildes können die Eckpunkte ermittelt werden. Es wird die Me
 \end{figure}
 
 \subsection{Geometrische Transformation}
-Diese Methode liest das originale RGB Bild ein und bekommt die 4 Eckpunkte übergeben. Das Ergebnis ist ein 500 x 500 Pixel RGB Bild mit dem entzerrten Spielfeld wie man es an der nachfolgenden Bild sehen kann.\\
+Diese Methode liest das originale RGB Bild ein und bekommt die 4 Eckpunkte übergeben. Das Ergebnis ist ein 500 x 500 Pixel RGB Bild mit dem entzerrten Spielfeld, wie man es an dem nachfolgenden Bild sehen kann.\\
 
 \begin{figure}[ht]
 	\centering
@@ -240,12 +240,12 @@ Anschließend wird das Array auf Maxima untersucht. Da mehrere Kreise gefunden w
 \\
 Falls der Wert amountCenterPoints niedrieg gewählt wurde oder das eingelesene Kantenbild teilweise fehlerhaft ist. So kann es passieren das mehrer (leicht unterschiedliche) Kreismittelpunkte für den selben Kreis gefunden werden. Da nur die Mittelpunkte der Spielsteine relevant sind, wir davon ausgehen das alle Spielsteine annähernd gleich groß sind und dass nie zwei Spielsteine übereinander liegen, können alle gefundenen Kreismittelpunkte \((y_{j}, x_{j})\) deren Distanze zum Kreismittelpunkt \((y_{i}, x_{i})\) kleiner als der \(Radius\) ist gelöscht werden. \\
 \\
-Außerdem müssen wir beim Eingabebild voraussetzen, dass kein Runder gegenstand am Spielfeld liegt deren Radius \(r\)  \(radiusMin \leq r \leq radiusMax\) ist. 
+Außerdem müssen wir beim Eingabebild voraussetzen, dass kein runder Gegenstand am Spielfeld liegt dessen Radius \(r\)  \(radiusMin \leq r \leq radiusMax\) ist. 
 Anschließend gibt die Funktion HoughFixedRadius alle gefundenen Kreismittelpunkte für den vorgegeben Radius zurück. \\
 
-Da Handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen, werden wieder alle doppelt gefundenen Mittelpunkte gelöscht. Mittelpunkte werden als Doppelt angesehn wenn die distanze zwischen den zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
+Da handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind, kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen, werden wieder alle doppelt gefundenen Mittelpunkte gelöscht. Mittelpunkte werden als Doppelt angesehen, wenn die Distanz zwischen zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
 
-Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Koordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
+Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Koordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild gespeichert. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
 
 \begin{figure}[ht]
 	\centering
