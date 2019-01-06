@@ -141,13 +141,13 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
   Name & Tätigkeiten\\
     \hline
-			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1\\
+			Tobias Batik & Matlab-Funktionen: hough, findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1, 5.3.Hough, 5.3.findstein\\
 		\hline
 			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7, 5.2.2\\
 		\hline
-			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
+			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4, 5.1\\
 		\hline
-			Lisalotte Tscherteu & Matlab-Funktion: findStein.m, hough teilweise; Bericht Abschnitt 4.6, Plakat\\
+			Lisalotte Tscherteu & Matlab-Funktion: hough, findStein; Bericht Abschnitt 4.6, Plakat\\
 		\hline
 			Simon Wesp & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
@@ -311,7 +311,7 @@ Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert si
 \end{figure}
 
 
-\subsection{findStein.m}
+\subsection{Farberkennung und Spielfeldposition}
 Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
 Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
 Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
@@ -329,12 +329,6 @@ Die Anzahl der schwarzen und weißen Steine wird über „countOccurences.m“ e
 
 %%------------------------------------------------------
 \section{Evaluierung}
-(2-X Seiten)\\
-Hier stellt ihr Euren Datensatz vor und beantwortet Evaluierungsfragen:\\
-z.B. Fakten zum Datensatz: Anzahl der Bilder, Größe der Bilder, Quelle des Datensatzes (falls selbst aufgenommen: Aufnahmegerät, Einstellungen,... / falls nicht selbst erstellt: Datenbank vorstellen... $\to$ Referenzen!)\\
-Diskussion der Evaluierungsfragen: Beantwortung der Fragen, Diskussion anhand von Beispielen, Diskussion von Grenzfällen: für welche Bilder funktioniert die Implementierung, für welche nicht? Worin unterscheiden sich diese Bilder? Warum funktionieren sie nicht? etc.\\
-Evaluiert wird der ganze Datensatz, nicht nur einzelne Bilder. Einzelne Bilder können zum Aufzeigen von Fehlern/Problemen/besonders guten Ergebnissen... genutzt werden.\\
-Zur Evaluierung gehört auch das Testen der einzelnen Methodiken (separat), mit Erwähnung eventueller Einschränkungen.
 
 \subsection{Datensatz}
 Anzahl der Bilder: 101
@@ -371,12 +365,23 @@ Wäre dies nicht der Fall, müsste man sich über den Unterschied der Spielstein
 Immer wen ein Spiel als nicht gültig erkannt wird, werden die zwei 3x3x3 Matrizen ausgegeben damit diese mit den Eingabebildern verglichen werden können.
 
 
+\subsection{Evaluierung der Funktionen}
 \textbf{Hough Kreiserkennung}\\
-Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergäbenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunk des Spielsteines abweicht. Das ist warscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
+Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergebenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunkt des Spielsteines abweicht. Das ist wahrscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
 \\
-Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurück zu führen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
-  
-\textbf{findstein.m} \\
+Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurückzuführen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
+\\
+\textbf{Farberkennung und Spielfeldposition} \\
+Hier wurde die Position der übergebenen Kreismittelpunkte mit den Ecken den möglichen Positionen verglichen. Desweiteren wurde untersucht ob es sich um einen schwarzen oder weißen Spielstein handelt. \\
+Die erkennung der Position funktion korrekt solange die Dimensionen des Spielfeldes mit denen den in Absatz 1.4 beschriebenen Voraussetzungen übereinstimmen und alle Spielsteine annähernd korrekt positioniert sind. Für andere Spielfelder müssen die Koordinaten der möglichen Spielstein Positionen geändert werde. \\
+\\
+Die Erkennung der Farbe der Spielsteine funktioniert gut solange nicht ein zu hartes Licht verwendet wurde. Ansonsten können auf schwarzen Spielsteinen weiße Flecken auftreten, die falsch Interpretiert werden könnten. \\
+\\
+Bei den Spielen 1, 3 und 4 hat die erkennung der Spielsteine korrekt funktioniert. Lediglich beim Spiel 2 sind Fehler bei den schwarzen Spielsteinen aufgetreten. \\
+\\
+
+
+
 
 
 %%------------------------------------------------------
