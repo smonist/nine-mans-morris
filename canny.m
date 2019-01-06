@@ -58,27 +58,26 @@ function canny(gameNr, roundNr)
     ibw = max(gradient, level .* ones(size(gradient)));
     
     
-    %{
-    %NON MAX WUUUUUUUUUUUUUUUUT (???????)?
-    %(???????????)
+    
+    %NON MAX WUUUUUUUUUUUUUUUUT
     I_temp = zeros(size(ibw, 1), size(ibw, 2));
     [n,m] = size(ibw);
     for i = 2:n - 1,
         for j = 2:m - 1,
             switch theta(i, j)
-                %horizontal edge = vertical filter ???
+                %horizontal edge = vertical filter 
                 case 0
                     I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i, j + 1), gradient(i, j - 1)]));
                     
-                %diagonal edge = diagonal filter (???????)?
+                %diagonal edge = diagonal filter 
                 case 45
                     I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j - 1), gradient(i - 1, j + 1)]));
                 
-                %vertical edge = horizontal filter ?[???]?
+                %vertical edge = horizontal filter 
                 case 90
                     I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j), gradient(i - 1, j)]));
                 
-                %diagonal edge = diagonal filter ?•?_?•?
+                %diagonal edge = diagonal filter 
                 case 135
                     I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i + 1, j + 1), gradient(i - 1, j - 1)]));
             end
@@ -87,10 +86,10 @@ function canny(gameNr, roundNr)
     
     I_temp = I_temp .* gradient;
     
-    %}
     
     
     
+    %{
     % Thinning
     [n,m]=size(ibw);
     for i=2:n-1,
@@ -119,7 +118,7 @@ function canny(gameNr, roundNr)
         end
     end
 
-    
+    %}
     
     imshow(I_temp);
     
