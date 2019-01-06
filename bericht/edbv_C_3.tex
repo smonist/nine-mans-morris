@@ -92,8 +92,8 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 
 \subsection{Evaluierungsfragen}
 1. Wird das Spielfeld richtig eingelesen?\\
-2. Wird ein gültiger Spielzug vorhergesagt?\\
-3. Wird ein gültiges Spiel als solches erkannt?\\
+%2. Wird ein gültiger Spielzug vorhergesagt?\\
+2. Wird ein gültiges Spiel als solches erkannt?\\
 \subsection{Zeitplan}
 
 \begin{table}[h!]
@@ -110,9 +110,9 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 				Framework &15.10 &2.10 & X & 10\\
 		\hline	
-				Threshold und Eckenerkennung & 15.11 & 21.11 & 30 &40\\
+				Threshold und Eckenerkennung & 15.11 & 21.11 & 30 &...\\
 		\hline	
-				Geometrische Transformation & 29.11 & 5.12 & 70 &60\\
+				Geometrische Transformation & 29.11 & 5.12 & 70 &...\\
 		\hline	
 				Canny Kantenerkennung & 12.12 & 16.12 & 25 & 35\\
 		\hline	
@@ -141,15 +141,15 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
   Name & Tätigkeiten\\
     \hline
-			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5, 5.1\\
+			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1\\
 		\hline
 			Bougouma Fall & Matlab-Funktion C, Bericht Abschnitt D...\\
 		\hline
-			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
+			Yannic Ellhotka & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
 			Lisalotte Tscherteu & Matlab-Funktion: findStein.m, hough teilweise; Bericht Abschnitt 4.6, Plakat\\
 		\hline
-			Simon Wesp & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
+			Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
   \end{tabular}
 \end{center}
@@ -318,7 +318,7 @@ Zur Evaluierung gehört auch das Testen der einzelnen Methodiken (separat), mit 
 \subsection{Datensatz}
 Anzahl der Bilder: 101
 Größe der Bilder: 2000 x 2667 Pixel
-Quelle des Datensatzes: selbst aufgenommen, Smartphonekamera, regelmäßge Ausleuchtung, keine harten Schatten, einfärbiger Hintergrund
+Quelle des Datensatzes: selbst aufgenommen, Smartphonekamera, regelmäßge Ausleuchtung, keine harten Schatten, einfärbiger Hintergrund.\\
 
 \subsection{Evaluierungsfragen}
 
@@ -327,7 +327,7 @@ Beim Spiel 1 wurden von 450 Spielsteinen, 2 Spielsteine nicht richtig erkannt. E
 \\
 Beim Spiel 2 wurden von 472 Spielsteinen 17 Spielsteine nicht richtig erkannt. Das ist eine Fehlerquote von 3 \%. Hier handelt es sich nur um Schwarze Spielsteine, die im oberen Bereich des Spielfeldes Platziert wurde. Hier werden zwar die Mittelpunkte der Kreise korrekt erkannt, jedoch können die steine nicht eindeutig einer Farbe zugeordnet werden. Das liegt an den starken Reflexionen auf den Spielsteinen liegen. \\ 
 \\
-Der Grund warum die Spielsteine im Game 1 schlechter erkannt wurden als im Game 2 liegt nicht an der Perspektive der Bilder sondern an der veränderten Lichtsituation. Beim Spiel 2 wurde ein härteres und stärkeres Licht verwendet. \\
+Der Grund warum die Spielsteine im Game 1 schlechter erkannt wurden als im Game 2 liegt nicht an der Perspektive der Bilder, sondern an der veränderten Lichtsituation. Beim Spiel 2 wurde ein härteres und stärkeres Licht verwendet. \\
 \\
 Bei Game 3 wurden von 43 Spielsteinen 9 weiße Steine nicht richtig erkannt. Hier ist das Spielfeld weiß und aufgrund des geringen Kontrastes zu den Spielsteinen konnten die Kanten nicht richtig detektiert werden. Die schwarzen Spielsteine wurden allerdings ohne Fehler erkannt. \\
 \\
@@ -340,7 +340,8 @@ Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde all
 %Game 4: selber datensatz nur kontrast erhöht 5 steine nicht gefunden. 
 
 
-\textbf{2. Wird ein gültiger Spielzug vorhergesagt?}
+%\textbf{2. Wird ein gültiger Spielzug vorhergesagt?}
+\textbf{2. Wird ein gültiges Spiel als solches erkannt?}
 
 %%------------------------------------------------------
 
