@@ -19,7 +19,10 @@ for i = 1 : length(dir(strcat('assets/original/', int2str(game), '_*.jpg')))
     score = findStein(game, i, centerPoints);
     storeScore(game, i, score);
     if i ~= 1
-        isLegit(prevScore, score, i);
+        if ~isLegit(prevScore, score, i)
+            %prevScore
+            %score
+        end
     end
-    score
+    %score
 end

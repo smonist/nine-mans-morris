@@ -1,6 +1,6 @@
 function legit = isLegit(scorePrev, score, j)
 legit = true;
-zug = j + 1;
+zug = j-1 ;
 counterBefore = 0;
 counterAfter = 0;
 
@@ -36,7 +36,7 @@ counterAfter = 0;
 
     if counterAfter > counterBefore +1 || counterAfter < counterBefore -1
         legit = false;
-            disp("Zug "+ j+1 + ": Entweder wurde ein Stein nicht Richtig erkannt, oder es handelt sich um einen ungültigen Spielzug");
+            disp("Zug "+ zug + ": Entweder wurde ein Stein nicht Richtig erkannt, oder es handelt sich um einen ungültigen Spielzug");
     end
 
     if j <= 19
@@ -45,25 +45,12 @@ counterAfter = 0;
         end
     end
 
-    if 20 <= j && j <= 38
+    if 20 <= j
         if ~getPhase(scorePrev,score)
             legit = false;
             disp("Zug "+ zug + ": Entweder wurde ein Stein nicht Richtig erkannt, oder es handelt sich um einen ungültigen Spielzug");
         end
     end
 
-    if 39 <= j && j <= 57
-        if getPhase(scorePrev,score)
-            legit = false;
-             disp("Zug "+ zug + ": Entweder wurde ein Stein nicht Richtig erkannt, oder es handelt sich um einen ungültigen Spielzug");
-        end
-    end
-
-    if j >= 58
-        if ~getPhase(scorePrev,score)
-            legit = false;
-            disp("Zug "+ zug + ": Entweder wurde ein Stein nicht Richtig erkannt, oder es handelt sich um einen ungültigen Spielzug");
-        end
-    end 
 end
 
