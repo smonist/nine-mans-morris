@@ -7,21 +7,26 @@ function corners = threshold(gameNr, roundNr, custom_threshold)
     se = strel('cube',4);
     BW = imerode(BW,se);
 
-    %vertices matrix
+    % Find vertices
     
-    [ALL_Y,ALL_X] = find(BW);
-    [~,found] = min(ALL_Y+ALL_X);
+    [Ys,Xs] = find(BW);
+    
+    [temp,temp] = min(Ys+Xs);
+    
+    % Corner 1
+    corners = [Xs(temp),Ys(temp)];
+    [temp,temp] = min(Ys-Xs);
+    
+    % Corner 2
+    corners(2,:) = [Xs(temp),Ys(temp)];
+    [temp,temp] = max(Ys+Xs);
+    
+    % Corner 3
+    corners(3,:) = [Xs(temp),Ys(temp)];
+    [temp,temp] = max(Ys-Xs);
 
-    corners = [ALL_X(found),ALL_Y(found)];
-    [~,found] = min(ALL_Y-ALL_X);
-
-    corners(2,:) = [ALL_X(found),ALL_Y(found)];
-    [~,found] = max(ALL_Y+ALL_X);
-
-    corners(3,:) = [ALL_X(found),ALL_Y(found)];
-    [~,found] = max(ALL_Y-ALL_X);
-
-    corners(4,:) = [ALL_X(found),ALL_Y(found)];
+    % Corner 4
+    corners(4,:) = [Xs(temp),Ys(temp)];
  
     %figure, imshow(BW); hold all
     %plot(NON_ZERO([1:4 1],1), NON_ZERO([1:4 1],2),'r','linewidth',3);
