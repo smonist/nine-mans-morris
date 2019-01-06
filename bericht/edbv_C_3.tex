@@ -307,7 +307,7 @@ Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert si
 \end{figure}
 
 
-\subsection{findStein.m}
+\subsection{Farberkennung und Spielfeldposition}
 Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
 Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
 Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
@@ -356,7 +356,7 @@ Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des über
 \\
 Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurückzuführen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
 \\
-\textbf{findstein.m} \\
+\textbf{Farberkennung und Spielfeldposition} \\
 Hier wurde die Position der übergebenen Kreismittelpunkte mit den Ecken den möglichen Positionen verglichen. Desweiteren wurde untersucht ob es sich um einen schwarzen oder weißen Spielstein handelt. \\
 Die erkennung der Position funktion korrekt solange die Dimensionen des Spielfeldes mit denen den in Absatz 1.4 beschriebenen Voraussetzungen übereinstimmen und alle Spielsteine annähernd korrekt positioniert sind. Für andere Spielfelder müssen die Koordinaten der möglichen Spielstein Positionen geändert werde. \\
 \\
