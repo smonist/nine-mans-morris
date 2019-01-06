@@ -112,13 +112,13 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline	
 				Threshold und Eckenerkennung & 15.11 & 21.11 & 30 &...\\
 		\hline	
-				Geometrische Transformation & 29.11 &... & 70 &...\\
+				Geometrische Transformation & 29.11 & 5.12 & 70 &...\\
 		\hline	
-				Canny Kantenerkennung &... &... &... &...\\
+				Canny Kantenerkennung & 12.12 & 16.12 & 25 & 35\\
 		\hline	
 				Hough Kreiserkennung & 30.12 & 22.12 & 30 & 35\\
 		\hline	
-				Spielstanderkennung & X & 28.1 & X & 25\\
+				Spielstanderkennung & 24.12 & 28.12 & 25 & 25\\
 		\hline	
 				Analyse des Spielzüge & 15.12 & 5.1 &... &...\\
 		\hline	
@@ -145,11 +145,11 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 			Bougouma Fall & Matlab-Funktion C, Bericht Abschnitt D...\\
 		\hline
-			Yannic Ellhotka & Matlab-Funktion C, Bericht Abschnitt D...\\
+			Yannic Ellhotka & Matlab-Funktion: threshold, canny; Bericht Abschnitt 4.2, 4.3, 4.4\\
 		\hline
 					Lisalotte Tscherteu & Matlab-Funktion C, Bericht Abschnitt D...\\
 		\hline
-					Simon Wesp & Matlab-Funktion C, Bericht Abschnitt D...\\
+					Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 4.2, 4.3, 4.4\\
 		\hline
   \end{tabular}
 \end{center}
@@ -237,7 +237,7 @@ Der erste Schritt ist das Errechnen der Kantenkraft (wird für spätere Schritte
 
 Die Länge der Hypotenuse der beiden Ankatheten Gx und Gy ist gleichzeitig auch die Magnitude.\\
 Der nächste Schritt ist das Thresholding. Bei diesem Schritt werden Kantenpixel mit einem schwachen Magnitude Wert ausgefiltert. Das Ergebnis ist ein Kantenbild das nur starke Kanten enthält.\\
-Der Letzte Schritt ist das Thinning, bei dem die Dicke der erkannten Kanten auf ein Pixel reduziert wird.\\
+Der Letzte Schritt ist das Thinning, bei dem die Dicke der erkannten Kanten auf ein Pixel reduziert wird. Dies wird durch Non-Maximum-Supression erreicht. Dabei wird abhängig von dem Winkel der Kante in der Umgebung nach weiteren Kanten gesucht, um anschließend die "stärkste" Kante auszuwählen. Die schwächeren Kanten werden dann gelöscht, wodurch die Dicke auf 1 Pixel reduziert wird.\\
 
 \subsection{Hough Kreiserkennung}
 Die Funktion \(hough\) findet die Kreismittelpunkte von Kreisen mit einem Radius \(r\), \(radiusMin \leq r \leq radiusMax \)  und gibt diese als \(n * 2\) Matrix zurück. 
