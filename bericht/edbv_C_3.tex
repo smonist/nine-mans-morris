@@ -42,24 +42,25 @@ Simon Wesp (11709457)
 
 %%------------------------------------------------------
 \section{Gewählte Problemstellung}
-(1-1,5 Seiten)\\
-entspricht dem (aktualisierten) Konzept
+
 \subsection{Ziel}
-Ziel des Projekts\\
-Brettspiel Muehle einlesen und moglichen naechsten Zug vorhersagen.
+Bildserie eines Mühlespieles einlesen. Den aktuellen Spielstand erkennen und überprüfen ob das Spiel regelkonform gespielt wurde.  
 \subsection{Eingabe}
 Folge von Farbbildern des Spielbrettes. 
 
 
 \subsection{Ausgabe}
-TODO müssen wir neu schreiben !!!!
+Aktueller Spielstand in der Konsole. \\
+Alle eingelesen Spielzüge und deren Spielstand als Textdatei. \\
+Kontrolle ob ein Spiel regelkonform gespielt wurde. 
 \subsection{Voraussetzungen und Bedingungen}
-Bilder muessen annaehernd in Volgelperspektive aufgenommen werden (+-30 Grad). \\
+Bilder müssen annähernd in Volgelperspektive aufgenommen werden (+-30 Grad). \\
 Das Spielbrett muss die in der Grafik dargestellten relativen Maßeinheiten erfüllen (siehe Abbildung 1) . 
 Der Hintergrund der Spielfelder muss ausreichend Kontrast zu den weißen sowie schwarzen Spielsteinen aufweisen. \\
-Die verwendeten Spielsteine haben eine durchmesser von Breite des Spielfelder * 0.08\\
-Steine muessen eindeutig auf den vorgesehen Punkten liegen.\\
-
+Die verwendeten Spielsteine haben eine durchmesser von Breite des Spielfelder * 0.08.\\
+Steine müssen eindeutig auf den vorgesehen Punkten liegen.\\
+Die Ecken des Spielfeldes und die Spielsteine dürfen nicht durch andere Gegestände verdeckt werden.\\
+Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf auf den Spielfeld liegen. 
 \begin{figure}[ht]
 	\centering
 		\includegraphics[width=8cm]{Spielbrett_relativeDimensionen_grafik.jpg}\\
@@ -70,31 +71,29 @@ Steine muessen eindeutig auf den vorgesehen Punkten liegen.\\
 
 
 \subsection{Methodik}
-1. Grauwert\\
-\hspace*{1em} a. Input: RGB-Bild\\
-\hspace*{1em} 	b. Output: Grauwertbild \\
-2.  Threshold\\
-\hspace*{1em} a. Input: Grauwertbild\\
-\hspace*{1em} b. Output: Binärbild ???????? \\
-3. Geometrische Transformation\\
-\hspace*{1em} a. Input: Kantenbild und Koordinaten der Vierecke\\
-\hspace*{1em} b. Output: transformiertes Kanten-Bild des Spielfeldes \\
-4. Canny\\
-\hspace*{1em} a. Input: Grauwertbild\\
+1.  Threshold\\
+\hspace*{1em} a. Input: rgb Bild des Spielfeldes\\
+\hspace*{1em} b. Output: Eckpunkte des Spielfelder, Binärbild\\
+2. Geometrische Transformation\\
+\hspace*{1em} a. Input: rgb Bild des Spielfeldes und Koordinaten der Eckpunkte des Spielfeldes\\
+\hspace*{1em} b. Output: entzerrtes 500 x 500 Pixel rgb Bild\\
+3. Canny\\
+\hspace*{1em} a. Input: entzerrtes 500 x 500 Pixel rgb Bild\\
 \hspace*{1em} b. Output: Kantenbild \\
-5. Hough-Transformation \\
-\hspace*{1em} a. Input: transformiertes Kanten-Bild des Spielfeldes\\
-\hspace*{1em} b. Output: Mittelpunkte der Spielsteine \\
-6. Muss ich mir noch überlegen wie das heißt  \\
-\hspace*{1em} a. Input: Mittelpunkte der Spielsteine und entzerrtes Graustufenbild\\
+4. Hough-Transformation \\
+\hspace*{1em} a. Input: Kanten-Bild des entzerrten Spielfeldes\\
+\hspace*{1em} b. Output: Koordinaten der Mittelpunkte der Spielsteine \\
+5. Spielstand erkennung \\
+\hspace*{1em} a. Input: Koordinaten der Mittelpunkte der Spielsteine und rgb Bild des entzerrten Spielfeldes\\
 \hspace*{1em} b. Output: 3x3x3 Array das den aktuellen Spielstand repräsentiert \\
-7. Algorithmus Zug berechnen Stimmt nicht mehr\\
+6. XXXXXXXX Algorithmus Zug berechnen Stimmt nicht mehr\\
 \hspace*{1em} a. Input: Array des aktuellen Spielstands \\
 \hspace*{1em} b. Output: Vorgeschlagener naaechster Zug
 
 \subsection{Evaluierungsfragen}
 1. Wird das Spielfeld richtig eingelesen?\\
-2. Wird ein gueltiger Spielzug vorhergesagt?\\
+2. Wird ein gültiger Spielzug vorhergesagt?\\
+3. Wird ein gültiges Spiel als solches erkannt?\\
 \subsection{Zeitplan}
 Der Zeitplan soll neben Euren anfänglichen, geplanten Zeiten/Arbeitsaufwände die tatsächlichen Zeiten/Arbeitsaufwände beinhalten. 
 \begin{table}[h!]
@@ -246,7 +245,7 @@ Anschließend gibt die Funktion HoughFixedRadius alle gefundenen Kreismittelpunk
 
 Da Handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen, werden wieder alle doppelt gefundenen Mittelpunkte gelöscht. Mittelpunkte werden als Doppelt angesehn wenn die distanze zwischen den zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
 
-Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Kordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
+Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Koordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
 
 \begin{figure}[ht]
 	\centering
