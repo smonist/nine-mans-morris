@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{houghnote2}
+Tim~J Atherton and Darren~J Kerbyson.
+\newblock Size invariant circle detection.
+\newblock {\em Image and Vision computing}, 17(11):795--803, 1999.
+
+\bibitem{canny1}
+John Canny.
+\newblock A computational approach to edge detection.
+\newblock {\em IEEE Transactions on pattern analysis and machine intelligence},
+  (6):679--698, 1986.
+
+\bibitem{houghnote1}
+Richard~O Duda and Peter~E Hart.
+\newblock Detect lines and curves in pictures.
+\newblock 1972.
+
+\end{thebibliography}

@@ -175,38 +175,30 @@ Die Kantenerkennung des Spielfelds funktioniert mit dem Canny-Algorithmus. Hier 
 Dadurch sind alle "Arten" von Kanten abgedeckt: horizontal, vertikal und 2 mal diagonal. Die Richtung der Kante ist egal, deswegen kommt man mit 4 Möglichkeiten aus statt 8. Die Winkel werden  in 0, 45, 90 \& 135 Grad unterteilt.
 
 Danach wird ein Threshold angewendet, um zu schwache Kanten auszufiltern und ein sauberes Bild zu generieren. Allerdings sind die meisten Kanten jetzt noch relativ dick, um damit zu arbeiten sollten sie aber jeweils 1 Pixel breit sein. Dafür gibt es mehrere Ansätze, wir haben uns für die Non-Max Suppression entschieden.\\
-Hier wird abhängig von dem Winkel der Kante in der Umgebung nach Kanten gesucht und stärkste von ihnen ausgewählt. Sie bleibt im Bild, während die anderen, schwächeren Kanten entfernt werden. Konkret heißt das, dass bei einer horizontalen Kante in der vertikalen Umgebung nach stärkeren Kanten gesucht wird - sozusagen nach parallelen Kanten. Die Suchumgebung ist immer der Winkel der Kante um 90 Grad gedreht. \footref{canny1}
-
-\footnote{\label{canny1} Canny, John F.. “A Computational Approach to Edge Detection.” IEEE Transactions on Pattern Analysis and Machine Intelligence PAMI-8 (1986): 679-698.}\\
-
+Hier wird abhängig von dem Winkel der Kante in der Umgebung nach Kanten gesucht und stärkste von ihnen ausgewählt. Sie bleibt im Bild, während die anderen, schwächeren Kanten entfernt werden. Konkret heißt das, dass bei einer horizontalen Kante in der vertikalen Umgebung nach stärkeren Kanten gesucht wird - sozusagen nach parallelen Kanten. Die Suchumgebung ist immer der Winkel der Kante um 90 Grad gedreht. \cite{canny1}
 
 
 \subsection{Hough Transformation für Kreise}
 Zur Erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
 \\
-Die Kreis-Hough-Transformation ist ein übliches Verfahren zum Erkennen von Kreisen und deren Mittelpunkte. Das Verfahren benötigt zur Erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten, die auf dem gesuchten Kreis liegen.
-	\footnote{\label{houghnote2} T.J Atherton, D.J. Kerbyson. "Size invariant circle detection." Image and Vision Computing. 
-	Volume 17, Number 11, 1999, pp. 795-803.}\\
+Die Kreis-Hough-Transformation ist ein übliches Verfahren zum Erkennen von Kreisen und deren Mittelpunkte. Das Verfahren benötigt zur Erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten, die auf dem gesuchten Kreis liegen. \cite{houghnote2}\\
 In einem zweidimensionalen Raum kann ein Kreis mithilfe von \\
 \begin{equation}
 (x - a)^2 +(y - b)^2 = c^2 
 \end{equation} 
-beschrieben werden. \footnote{\label{houghnote1}R.O. Duda, P.E. Hart, Use of the Hough Transform to Detect Lines and Curves in Pictures, Communications of the ACM 15 (1972) 11– 15.
-} Wobei der Punkt \((x,y) \) ein Kantenpunkt auf dem Kreis ist, \((a,b)\) der Kreismittelpunkt und \(c\) der Radius des Kreises.\\
+beschrieben werden. \cite{houghnote1} Wobei der Punkt \((x,y) \) ein Kantenpunkt auf dem Kreis ist, \((a,b)\) der Kreismittelpunkt und \(c\) der Radius des Kreises.\\
 
-Liegt ein Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator-Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
+Liegt ein Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator-Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\cite{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
 
 \begin{figure}[ht]
 	\centering
 		\includegraphics[width=6cm]{2dhough_darstellung.png}\\
-	\caption[Funktion von Hough bei bekanntem Radius]{Funktion von Hough bei bekanntem Radius\footref{houghnote2}}
+	\caption[Funktion von Hough bei bekanntem Radius]{Funktion von Hough bei bekanntem Radius\cite{houghnote2}}
 	\label{fig:hough2d}
 \end{figure}
 
-Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).\footref{houghnote1}
-\\
-\\
-Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt. Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
+Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).
+Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt.\cite{houghnote1}\\ Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
 
 %%------------------------------------------------------
 
@@ -329,9 +321,12 @@ Größe der Bilder: 2000 x 2667 Pixel
 Quelle des Datensatzes: selbst aufgenommen, Smartphonekamera, regelmäßge Ausleuchtung, keine harten Schatten, einfärbiger Hintergrund
 
 \subsection{Evaluierungsfragen}
-1. Wird das Spielfeld richtig eingelesen?
-2. Wird ein gültiger Spielzug vorhergesagt?
+1. Wird das Spielfeld richtig eingelesen? \\
+Note: Game 3: 9 weiße Steine wurden nicht erkannt. von 24
+Game 4: selber datensatz nur kontrast erhöht 5 steine nicht gefunden. 
 
+
+2. Wird ein gültiger Spielzug vorhergesagt?
 
 %%------------------------------------------------------
 
@@ -348,7 +343,7 @@ Welche Schlussfolgerung lässt sich ziehen? Gibt es offene Probleme? Wie lässt 
 \bibliography{edbv_lit}
 %%Bei verwendung von Latex schreibt ihr eure Referenzen in ein eigenes bib-File (siehe hier edbv_lit.bib). Jene Referenzen, die ihr im Bericht mittels \cite zitiert, werden automatisch in die Referenzliste übernommen. Weitere Information zum Einbinden von BibTex gibt es hier: http://www.bibtex.org/Using/de/
 %%------------------------------------------------------
-\textbf{Webseiten werden als Fußzeilen (an jener Stelle wo sie verwendet werden) eingebunden, nicht als Literature!}
+
 
 \end{document}
 \grid
