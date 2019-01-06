@@ -35,7 +35,7 @@ end
 
 if counterAfter > counterBefore
     gamePhase = false;
-elseif counterAfter == counterBefore && checkForMill(score)
+elseif counterAfter == counterBefore && checkForMill(score) && ~checkForMill(scorePrev)
     gamePhase = false;
 end
 
