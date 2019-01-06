@@ -200,6 +200,18 @@ Liegt ein Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\
 Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).
 Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt.\cite{houghnote1}\\ Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
 
+
+\subsection{Farberkennung}
+Die Farberkennung muss zwischen annähernd Weiß und Schwarz unterscheiden müssen. \\
+Es reicht das entzerrte Bild als Grauwertbild auszulesen. Die Pixel der Kreismittelpunkte
+werden mit 4 umliegend gemittelt und anschließend mit einem Schwellwert verglichen.\\
+Grauwerte unter 80 stufen wir als Schwarz ein, über 50 als Weiß.
+
+\subsection{Spielfeldpositionserkennung}
+Die Position an der sich ein Stein befindet wird ermittelt, indem die erkannten Kreismittelpunkte
+mit den zuvor gespeicherten Koodinaten der Spielfeldpsitionen verglichen werden.\\
+Dafür werden die Distanzen zu allen Positionen ermittelt, 
+wenn die Distanz kleiner ist als ein Schwellert,  wird er an dieser Position erkannt und gespeichert.
 %%------------------------------------------------------
 
 %%------------------------------------------------------
