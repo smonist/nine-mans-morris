@@ -86,9 +86,9 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 5. Spielstand erkennung \\
 \hspace*{1em} a. Input: Koordinaten der Mittelpunkte der Spielsteine und rgb Bild des entzerrten Spielfeldes\\
 \hspace*{1em} b. Output: 3x3x3 Array das den aktuellen Spielstand repräsentiert \\
-6. XXXXXXXX Algorithmus Zug berechnen Stimmt nicht mehr\\
-\hspace*{1em} a. Input: Array des aktuellen Spielstands \\
-\hspace*{1em} b. Output: Vorgeschlagener naaechster Zug
+6. Gültigkeit des Spielzuges\\
+\hspace*{1em} a. Input: Voriger und aktueller Spielstand \\
+\hspace*{1em} b. Output: Hinweis falls der Zug ungültig war
 
 \subsection{Evaluierungsfragen}
 1. Wird das Spielfeld richtig eingelesen?\\
@@ -120,7 +120,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline	
 				Spielstanderkennung & 24.12 & 28.12 & 25 & 25\\
 		\hline	
-				Analyse des Spielzüge & 15.12 & 5.1 &... &...\\
+				Analyse des Spielzüge & 15.12 & 2.1 &20 &30\\
 		\hline	
 				Datenbank 2 aufbauen & X & 4.1 &... &...\\
 		\hline
@@ -143,7 +143,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
 			Tobias Batik & Matlab-Funktionen: hough, findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1, 5.3.Hough, 5.3.findstein\\
 		\hline
-			Bougouma Fall & Matlab-Funktion C, Bericht Abschnitt D...\\
+			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7, 5.2.2\\
 		\hline
 			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4, 5.1\\
 		\hline
@@ -199,6 +199,10 @@ Liegt ein Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\
 
 Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).
 Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt.\cite{houghnote1}\\ Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
+
+\subsection{Gültigkeit des Spielzuges}
+Zur Erkennung der Gültigkeit eines Spielzuges werden die Daten des Spielfelds vor und nach dem Zug verglichen. Falls ein unterschied erkannt wird, welcher in einem Zug nicht möglich wäre, wird die Nummer des Zuges sowie die Daten des Spielfelds vor und nach dem Zug ausgegeben. Somit kann überprüft werden ob es sich in dem Zug tatsächlich um einen ungültigen Spielzug handelt, oder ob ein Stein nicht richtig erkannt wurde.
+Der Algorithmus wird ab dem 2. geladenen Bild nach jedem Bild einmal aufgerufen um die Korrektheit des jetzigen Zuges zu überprüfen.
 
 
 \subsection{Farberkennung}
@@ -307,13 +311,18 @@ Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert si
 \end{figure}
 
 
-\subsection{findStein.m}
+\subsection{Farberkennung und Spielfeldposition}
 Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
 Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
 Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
 Diese Matrix wird dann als txt gespeichert und von der Funktion ausgegeben.
 
-\subsection{Spiel Algorithms}
+\subsection{Gültigkeit des Spielzuges}
+Die Funktion „isLegit.m“ bekommt die Daten von einem Spielfeld vor und nach einem Zug, sowie die Nummer des Zuges übergeben. Zusätzlich speichert sie sich die Anzahl der Steine vor und nach dem Zug.
+Falls sich die Anzahl der Steine um mehr als 1 unterscheidet handelt es sich bereits um einen ungültigen Zug. Daraufhin wird überprüft in welcher Phase sich das Spiel befindet (Platzierungsphase/Spielphase).\\
+Das wird mittels der Funktion „getPhase.m“ gemacht. Die Funktion vergleicht zwei Spielfelder und findet heraus in welcher Spielphase sich das Spiel befinden müsste, damit es sich um einen legitimen Zug handelt. Es wird sich wieder die Anzahl der Steine gemerkt, jedoch muss man diesmal auch überprüfen ob eine neue Mühle geschlossen wurde, da sich so die Differenz der Anzahl der Steine anders verhält.\\
+Hier wird die Funktion „checkForMill.m“ einmal pro Spielbrett (=2 mal) aufgerufen. „checkForMill.m“ wird ein Spielfeld übergeben und liefert zurück ob sich eine Mühle auf dem Spielfeld befindet. Es wird überprüft ob zumindest einer der zwei Spieler mehr als 2 Steine am Feld hat, und überprüft dann in jedem Ring des Spielfeldes im Uhrzeigersinn ob eine Mühle darauf liegt. Im äußersten Ring wird bei den belegten Eckpunkten analysiert ob in den zwei folgenden Feldern ebenfalls die selbe Farbe liegt, und bei den belegten Mittelpunkten wird überprüft ob eine Mühle die in die tiefe geht (= über alle 3 Ringe) existiert. Bei den inneren zwei Kreisen werden lediglich die Eckpunkte überprüft, da die Mittelpunkte bereits mit dem äußeren Ring gedeckt wurden.\\
+Die Anzahl der schwarzen und weißen Steine wird über „countOccurences.m“ errechnet, welche ein Spielfeld übergeben bekommt und einen Vektor mit der Anzahl an Steinen pro Spieler zurückliefert.
 
 
 %%------------------------------------------------------
@@ -350,13 +359,19 @@ Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde all
 \textbf{2. Wird ein gültiges Spiel als solches erkannt?}
 \\
 
+\textbf{Gültigkeit des Spielzuges}\\
+Unter der Annahme, dass die Spielsteine auf den Beispielbildern richtig erkannt wurden, wird ein gültiges Spiel als solches erkannt. Da unsere Beispielbilder immer von einem ganzen Spiel sind ist es relativ leicht zu überprüfen in welcher Spielphase wir uns befinden. Deswegen wird angenommen dass die Bilder mit dem ersten Zug anfangen.\\
+Wäre dies nicht der Fall, müsste man sich über den Unterschied der Spielsteine errechnen in welcher Spielphase man sich gerade befindet. Jedoch geht das nur unter der Annahme, dass die Daten von einem von einem gültigen Zug stammen. Das würde jedoch den ganzen Algorithmus redundant machen.\\
+Immer wen ein Spiel als nicht gültig erkannt wird, werden die zwei 3x3x3 Matrizen ausgegeben damit diese mit den Eingabebildern verglichen werden können.
+
+
 \subsection{Evaluierung der Funktionen}
 \textbf{Hough Kreiserkennung}\\
 Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergebenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunkt des Spielsteines abweicht. Das ist wahrscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
 \\
 Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurückzuführen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
 \\
-\textbf{findstein.m} \\
+\textbf{Farberkennung und Spielfeldposition} \\
 Hier wurde die Position der übergebenen Kreismittelpunkte mit den Ecken den möglichen Positionen verglichen. Desweiteren wurde untersucht ob es sich um einen schwarzen oder weißen Spielstein handelt. \\
 Die erkennung der Position funktion korrekt solange die Dimensionen des Spielfeldes mit denen den in Absatz 1.4 beschriebenen Voraussetzungen übereinstimmen und alle Spielsteine annähernd korrekt positioniert sind. Für andere Spielfelder müssen die Koordinaten der möglichen Spielstein Positionen geändert werde. \\
 \\
