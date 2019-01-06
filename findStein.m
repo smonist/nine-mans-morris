@@ -60,7 +60,7 @@ function color = checkColor(img , center)
     if(avergaC < 80) 
         color = 1;  
      else
-         if (avergaC > 180)
+         if (avergaC > 150)
             color = 2; 
          else
               color = 3; 
