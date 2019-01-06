@@ -147,7 +147,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 			Yannic Ellhotka & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
-			Lisalotte Tscherteu & Matlab-Funktion C, Bericht Abschnitt D...\\
+			Lisalotte Tscherteu & Matlab-Funktion: findStein, scoreStore, Bericht Abschnitt: 4.6\\
 		\hline
 			Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
@@ -295,7 +295,7 @@ Anschließend wird ein .jpg Bild, auf dem die Kreismittelpunkte weiß Makiert si
 \end{figure}
 
 
-\subsection{findStein.m}
+\subsection{Farberkennung und Spielfeldposition}
 Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
 Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
 Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
