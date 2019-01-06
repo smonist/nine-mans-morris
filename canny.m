@@ -87,7 +87,7 @@ function canny(gameNr, roundNr)
     
     I_temp = I_temp .* gradient;
     
-    }%
+    %}
     
     
     
