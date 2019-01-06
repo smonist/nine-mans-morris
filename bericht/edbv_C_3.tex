@@ -147,9 +147,9 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline
 			Yannic Ellhotka & Matlab-Funktion: threshold, canny; Bericht Abschnitt 4.2, 4.3, 4.4\\
 		\hline
-					Lisalotte Tscherteu & Matlab-Funktion C, Bericht Abschnitt D...\\
+			Lisalotte Tscherteu & Matlab-Funktion C, Bericht Abschnitt D...\\
 		\hline
-					Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 4.2, 4.3, 4.4\\
+			Simon Wesp & Matlab-Funktion: threshold, canny; Bericht Abschnitt 4.2, 4.3, 4.4\\
 		\hline
   \end{tabular}
 \end{center}
@@ -158,6 +158,28 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 
 %%------------------------------------------------------
 \section{Methodik}
+
+\subsection{Threshold und Eckenerkennung}
+Beim Thresholding werden die Ecken des Spielfeldes aus dem Bild gesucht. Dafür müssen die Pixel, die weiß sind und die kleinsten/größten Koordinaten haben, herausgefunden werden. Es gibt aber immer wieder einzelne Ausßreisser im Bild - das kann von ISO-Noise, toten Pixeln am Kamerasensor oder Ähnlichem kommen. Deswegen wird vor der Eckenerkennung mit einem quadratischen Element über das Bild erodiert. So werden kleine Unregelmäßigkeiten ausgebügelt und das Ergebnis genauer. Der Threshold selbst dient dazul, das helle Spielfeld vom Hintergrund abzuheben - ist er richtig gewählt, ist es einfach, die ersten/letzen weißen Pixel im Bild zu finden.
+
+\subsection{Canny}
+Die Kantenerkennung des Spielfelds funktioniert mit dem Canny-Algorithmus. Hier wird das entzerrte Bild eingelesen, danach wird ein Sobel-Filter angewendet. Dadurch werden die Kanten in X- und Y-Dimension sichtbar. Die kombinierte Kanten ergibt sich aus der Quadratwurzeln der beiden Sobel-Ergebnisse. Der Winkel einer Kante wird über die Matlab-Funktion atan2 berechnet und danach auf eine von 4 möglichen Richtungen gerundet. \\
+
+\begin{figure}[ht]
+	\centering
+		\includegraphics[width=5cm]{CannyEdgeWheel.png}\\
+	\caption[Canny-Winkel]{Canny-Winkel}
+	\label{fig:nettop}
+\end{figure}
+
+Dadurch sind alle "Arten" von Kanten abgedeckt: horizontal, vertikal und 2 mal diagonal. Die Richtung der Kante ist egal, deswegen kommt man mit 4 Möglichkeiten aus statt 8. Die Winkel werden  in 0, 45, 90 \& 135 Grad unterteilt.
+
+Danach wird ein Threshold angewendet, um zu schwache Kanten auszufiltern und ein sauberes Bild zu generieren. Allerdings sind die meisten Kanten jetzt noch relativ dick, um damit zu arbeiten sollten sie aber jeweils 1 Pixel breit sein. Dafür gibt es mehrere Ansätze, wir haben uns für die Non-Max Suppression entschieden.\\
+Hier wird abhängig von dem Winkel der Kante in der Umgebung nach Kanten gesucht und stärkste von ihnen ausgewählt. Sie bleibt im Bild, während die anderen, schwächeren Kanten entfernt werden. Konkret heißt das, dass bei einer horizontalen Kante in der vertikalen Umgebung nach stärkeren Kanten gesucht wird - sozusagen nach parallelen Kanten. Die Suchumgebung ist immer der Winkel der Kante um 90 Grad gedreht. \footref{canny1}
+
+\footnote{\label{canny1} Canny, John F.. “A Computational Approach to Edge Detection.” IEEE Transactions on Pattern Analysis and Machine Intelligence PAMI-8 (1986): 679-698.}\\
+
+
 
 \subsection{Hough Transformation für Kreise}
 Zur Erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
