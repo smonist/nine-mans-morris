@@ -366,6 +366,15 @@ Immer wen ein Spiel als nicht gültig erkannt wird, werden die zwei 3x3x3 Matriz
 
 
 \subsection{Evaluierung der Funktionen}
+\textbf{Threshold}\\
+Die Eckenerkennung mithilfe eines Threshold funktioniert nur wenn der Kontrast zwischen Spielfeld und Hintergrund hoch genug ist. Idealerweise sollte der Hintergrund einfärbig sein. Ist der Hintergrund nicht einfärbig oder gibt es Blendenflecken bzw. Spiegelungen wird das Spielfeld höchstwahrscheinlich nicht richtig erkannt.  Blendenflecken sind besonders problematisch da sie weiß sind und als Ecken missinterpretiert werden könnten.\\
+\\
+\textbf{Geometrische Transformation}\\
+Solange 4 Eckpunkte im vorherigen Schritt erkannt werden kann kein Fehler bei der Geometrische Transformation auftreten. Werden falsche Eckpunkte erkannt, wird das Spielfeld zwar falsch verzerrt, aber das Programm läuft weiter. Die richtige Erkennung der Eckpunkte wird vorausgesetzt damit das Programm korrekt läuft.\\
+\\
+\textbf{Canny}\\
+Die Kantenerkennung funktioniert sehr gut bei unserem Spielfeld. Da das Spielfeld aus klaren Linien und Formen besteht, gibt es kaum Problemen bei der Erkennung. Ein Korrektes Katenbild ist für die Erkennung der Spielsteine wichtig. Es müssen lediglich die Kanten der Spielsteine erkannt werden damit das Programm richtig laugt. Aufgrund dessen kann die Position der Spielsteine auch richtig erkannt werden, wenn sich Fremdgegenstände auf dem Spielfeld befinden. \\
+\\
 \textbf{Hough Kreiserkennung}\\
 Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergebenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunkt des Spielsteines abweicht. Das ist wahrscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
 \\
