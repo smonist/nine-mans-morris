@@ -143,7 +143,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
 			Tobias Batik & Matlab-Funktionen: hough, findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1, 5.3.Hough, 5.3.findstein,6\\
 		\hline
-			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7, 5.2.2\\
+			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7, 5.2, 5.3\\
 		\hline
 			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4, 5.1\\
 		\hline
@@ -359,7 +359,6 @@ Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde all
 \textbf{2. Wird ein gültiges Spiel als solches erkannt?}
 \\
 
-\textbf{Gültigkeit des Spielzuges}\\
 Unter der Annahme, dass die Spielsteine auf den Beispielbildern richtig erkannt wurden, wird ein gültiges Spiel als solches erkannt. Da unsere Beispielbilder immer von einem ganzen Spiel sind ist es relativ leicht zu überprüfen in welcher Spielphase wir uns befinden. Deswegen wird angenommen dass die Bilder mit dem ersten Zug anfangen.\\
 Wäre dies nicht der Fall, müsste man sich über den Unterschied der Spielsteine errechnen in welcher Spielphase man sich gerade befindet. Jedoch geht das nur unter der Annahme, dass die Daten von einem von einem gültigen Zug stammen. Das würde jedoch den ganzen Algorithmus redundant machen.\\
 Immer wen ein Spiel als nicht gültig erkannt wird, werden die zwei 3x3x3 Matrizen ausgegeben damit diese mit den Eingabebildern verglichen werden können.
@@ -389,6 +388,10 @@ Die Erkennung der Farbe der Spielsteine funktioniert gut solange nicht ein zu ha
 Bei den Spielen 1, 3 und 4 hat die erkennung der Spielsteine korrekt funktioniert. Lediglich beim Spiel 2 sind Fehler bei den schwarzen Spielsteinen aufgetreten. \\
 \\
 
+\textbf{Gültigkeit des Spielzuges}\\
+Die Suche nach einer Mühle mit „checkForMill.m“ überprüft bei jedem Aufruf der Funktion jeden Eckpunkt und alle Mittelpunkte des äußeren Ringes. Es hat zwar keine große Auswirkung auf die Performance jedoch könnte der Algorithmus so optimiert werden dass er nur die Punkte wo eine Mühle möglich wäre (anhand von Vergleich mit dem ersten Bild) überprüft, anstatt alle ein weiteres Mal durchzugehen. \\
+Zusätzlich gibt es ein paar Grenzfälle, bei denen die „isLegit.m“ Funktion einen Zug als gültig markiert obwohl er ungültig war. Jedoch passiert das nur bei relativ spezifischen Spielsteinplatzierungen. Dieser Fehler tritt jedoch nicht auf, wenn das Spiel von Anfang bis Ende dokumentiert wurde.
+
 
 
 
@@ -397,13 +400,16 @@ Bei den Spielen 1, 3 und 4 hat die erkennung der Spielsteine korrekt funktionier
 
 %%------------------------------------------------------
 \section{Schlusswort}
-(max. 1 Seite)\\
-Hier fasst ihr Ergebnisse Eures Projekt zusammen:\\
-Welche Schlussfolgerung lässt sich ziehen? Gibt es offene Probleme? Wie lässt sich Eure Lösung noch verbessern? etc.
+Das Ergebnis unseres Projektes ist ein lauffähiges Matlab-Projekt, das Bilder von Mühle-Spielen, die den den spezifizierten Vorbedingungen entsprechen, auslesen und erkennen kann, ob der getätigte Spielzug gültig ist. Die Ausgabe erfolgt über .txt Dateien.
+Insgesamt sind wir zufrieden mit unserer Arbeit. Anfangs gab es etwas Verwirrung über die Pipeline, mit hilfe unseres Tutors wurde die aber beseitigt.
+%Mit unseren Vorbedingungen lassen sich die Bilder gut auslesen, natürlich könnte man diese weiter verkleinern, indem man an den Algorithmen feilt.\\
+\\
+Die erkennung der Spielsteine hat unter bedingunge wie in den Voraussetzungen beschrieben, sehr gut Funktioniert. Lediglich weniger als 1 \% der Spielsteine wurde nicht korrekt erkannt (Spiel 1). Bei etwas schlechterem Bildmaterial konnte wir allerdings noch immer mehr als 95\% der Spielsteine korrekt erkennen. \\
+\\
+Eine mögliche verbesserung wäre eine GUI mit der man das Spielfeld und die Farbwerte der Eingabebilder kalibrieren kann. Dadurch wäre es möglich das Programm auf unterschiedlichen Spielfeldern zu erkennen. \\
+\\
 
-Das Ergebnis unseres Projektes ist ein lauffähiges Matlab-Projekt, das Bilder von Mühle-Spielen, die den den spezifizierten Vorbedingungen entsprechen, auslesen und erkennen kann, ob der getätigte Spielzug gültig ist. Die Ausgabe erfolgt über .txt Dateien. 
-Insgesamt sind wir zufrieden mit unserer Arbeit. Anfangs gab es etwas Verwirrung über die Pipeline, mithilfe unseres Tutors wurde die aber beseitigt.
-Mit unseren Vorbedingungen lassen sich die Bilder gut auslesen, natürlich könnte man diese weiter verkleinern, indem man an den Algorithmen feilt.
+
 
 %%------------------------------------------------------
 
