@@ -47,7 +47,7 @@ end
 
 function color = checkColor(img , center)
 
-    colorImage = img(center(1), center(2));     %TODO hier evtl statt einem pixel alle 8 nachbarpixel nehmen und average bilden
+    colorImage = img(center(1), center(2));
     offset = 5;
     %oben und unten u recht u links eins
     up = img(center(1)+offset, center(2));
@@ -55,11 +55,11 @@ function color = checkColor(img , center)
     right =img(center(1), center(2)+offset);
     left = img(center(1), center(2)-offset);
      
-    
-    if((colorImage < 80 && up < 80 && down < 80 && right < 80 && left < 80)) 
+    avergaC = colorImage + up + down + right + left; 
+    if(avergaC < 80) 
         color = 1;  
      else
-         if (colorImage > 180 && up > 180 && down > 180 && right > 180 && left > 180)
+         if (avergaC > 180)
             color = 2; 
          else
               color = 3; 
