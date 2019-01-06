@@ -50,6 +50,7 @@ Brettspiel Muehle einlesen und moglichen naechsten Zug vorhersagen.
 \subsection{Eingabe}
 Folge von Farbbildern des Spielbrettes. 
 
+
 \subsection{Ausgabe}
 TODO müssen wir neu schreiben !!!!
 \subsection{Voraussetzungen und Bedingungen}
@@ -256,6 +257,10 @@ Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Maki
 
 
 \subsection{findStein.m}
+Diese Methode nimmt als Eingabeparameter, die bereits von Hough Funktion gefundenen Kreismittelpunkte. Sie vergleicht diese mit den Positionen an denen Mühlesteine platziert werden können.\\
+Wenn sich ein gefundener Mittelpunkt nahe an einer Spielfeldposition, an der Steine abgelet werden können,  befindet,  wird die besetzte Position in einem Array markiert. \\
+Um die Farbe des Steins zu erkennen, wird der Grauwert an der Stelle des von Hough gefundenen Mittelpunkt und vier weiteren umliegenden Punkten verglichen. Zum Vergleich dient ein Schwellwert. Die Farben werden  im Array als 1 oder 2 markiert und dann in eine 3x3x3 Matrix, die den Spielfelddimensionen entspricht eingetragen.\\
+Diese Matrix wird dann als txt gespeichert und von der Funktion ausgegeben.
 
 \subsection{Spiel Algorithms}
 
