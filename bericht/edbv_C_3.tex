@@ -354,6 +354,16 @@ Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde all
 
 %\textbf{2. Wird ein gültiger Spielzug vorhergesagt?}
 \textbf{2. Wird ein gültiges Spiel als solches erkannt?}
+\\
+
+
+\textbf{Hough Kreiserkennung}\\
+Die Performance der Kreiserkennung hängt sehr stark mit der Qualität des übergäbenen Kantenbild ab. Bei guten Kantenbilder wie bei Game 1 und 2 werden die Kreismittelpunkte mit einer geringen Toleranz immer richtig erkannt. Hier kann es lediglich passieren das der gefundene Kreismittelpunkt des Spielsteines um wenige Pixel vom tatsächlichen Kreismittelpunk des Spielsteines abweicht. Das ist warscheinlich darauf zurück zu führen das die Kantenbilder in relativ geringer Auflösung übergeben werden.\\
+\\
+Bei den Bildern der Spielen 3 und 4 kann die Funktion öfters keine Kreise detektieren. Die schlechtere Performance bei diesem Teil des Datensatz ist darauf zurück zu führen, dass die weißen Spielsteine nur kaum oder garnicht auf dem übergebenen Kantenbild zu erkennen sind. Also das lediglich ein bruchteil der Kreislinie vorhanden ist. \\
+  
+\textbf{findstein.m} \\
+
 
 %%------------------------------------------------------
 
