@@ -132,17 +132,10 @@ Wer hat welche Aufgaben übernommen (MATLAB-Funktionen, Abschnitt im Bericht, Ev
 
 %%------------------------------------------------------
 \section{Methodik}
-(2-3 Seiten)\\
-Hier wird die verwendete Methodik in der Theorie vorgestellt:\\
-Welche Methodik wurde verwendet? Warum eignet sich diese Methodik für die gewählte Problemstellung? Habt ihr Methoden verändert (Einschränkungen, Abwandlungen, Parameter), wenn ja wie? etc.\\
-Die erwähnten Methoden werden zum größten Teil auf Beschreibungen in Büchern oder wissenschaftlichen Artikeln beruhen. Daher ist hier auch der richtige Platz für Zitate. Die hier zitierten Publikationen sollten mittels Abkürzung bzw. Nummer referenziert sein und sich in der Referenzliste am Ende des Berichts über diese Bezeichnung finden lassen.\\
-Ein Beispielsatz (inkl. entsprechender Literaturangabe am Ende des Berichts): Interest Points wurden mittels Scale Invariant Feature Transform \cite{lowe2004} detektiert.\\
-Bei der Verwendung von Latex gestaltet sich das Zitieren besonders einfach - siehe Beispielssatz im Source der Latex-Vorlage.\\
-\textbf{Wichtig in diesem Abschnitt ist, dass sich der Leser Eures Berichts mit den verwendeten Methodiken auskennt und weiß, weshalb ihr diese Methodiken verwendet habt und keine anderen. Es soll dem Leser helfen den nächsten Abschnitt des Berichts besser zu verstehen.}
-\\
-\\
+
 \subsection{Hough Transformation für Kreise}
 Zur erkennung der Kreisförmigen Spielsteine im entzerrtem Kantenbild kommt eine Hough-Transformation für Kreise zum Einsatz. \\
+\\
 Die Kreis Hough Transformation ist ein übliches verfahren zum erkennen von Kreisen und deren Mittelpunkte. Das verfahren benötigt zur erkennung eines Kreises mit dem Radius \(c\) ein Set an Kantenpunkten die auf dem gesuchten Kreis liegen. 
 	\footnote{\label{houghnote2} T.J Atherton, D.J. Kerbyson. "Size invariant circle detection." Image and Vision Computing. 
 	Volume 17, Number 11, 1999, pp. 795-803.}\\
@@ -153,8 +146,8 @@ In einem Zweidimensionalen Raum kann ein Kreis mithilfe von \\
 beschrieben werden. \footnote{\label{houghnote1}R.O. Duda, P.E. Hart, Use of the Hough Transform to Detect Lines and Curves in Pictures, Communications of the ACM 15 (1972) 11– 15.
 } Wobei der Punkt \((x,y) \)ein Kantenpunkt auf dem Kreis ist, \((a,b)\) der Kreismittelpunkt und \(c\) der Radius des Kreises.\\
 
-Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle Potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
-\\
+Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c\) bekannt so k\"onnen alle Potenziellen Kreismittelpunkte \((a,b)\) mithilfe der oben erwähnten Formel ermittelt werden. Die Potenziellen Kreismittelpunkte werden in einem Akkumulator-Array gespeichert. Die Maxima in diesem Array repräsentieren die gefunden Kreismittelpunkte.\footref{houghnote2} Siehe Abbildung \ref{fig:hough2d}.\\
+
 \begin{figure}[ht]
 	\centering
 		\includegraphics[width=6cm]{2dhough_darstellung.png}\\
@@ -165,12 +158,7 @@ Liegt eine Punkt \((x,y)\) auf einem Kreis im Eingabebild und ist der Radius \(c
 Wenn ein Punkt \((a,b,c)\) im Hough-Raum ein Maximum ist, so gibt es im Eingabebild einen Kreis mit dem Mittelpunkt \((a,b)\) und dem Radius  \(c\).\footref{houghnote1}
 \\
 \\
-Visualisiert man die Potenziellen Kreismittelpunkte des Kantenpunktes als gerade Kreiszilinder im dreidimensionalens Hough-Raum, so repräsentiert der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius\( c\).
-
-
-
-
-
+Visualisiert man die potenziellen Kreismittelpunkte des Kantenpunktes im dreidimensionalen Hough Raum, so werden diese als gerader Kreiskegel dargestellt. Der Schnittpunkt \((a,b,c)\) von Maximal vielen Zylindern, repräsentiert den gefundenen Kreismittelpunkt \((a,b)\) mit dem Radius \( c\).
 
 %%------------------------------------------------------
 
@@ -226,21 +214,20 @@ Der nächste Schritt ist das Thresholding. Bei diesem Schritt werden Kantenpixel
 Der Letzte Schritt ist das Thinning, bei dem die Dicke der erkannten Kanten auf ein Pixel reduziert wird.\\
 
 \subsection{Hough Kreiserkennung}
-Die Funktion hough findet die Kreismittelpunkte von Kreisen mit einem Radius \(r\), \(radiusMin \leq r \leq radiusMax \)  und gibt diese als \(n * 2\) Matrix zurück. 
-Um die Kreismittelpunkte zu finden liest die Funktion das Kantenbild des Aktuellen Spieles und Spielzug ein. \\
-Die Funktion hough ruft für alle ganzzahliegen Radien (\(radiusMin \leq r \leq radiusMax\)) die Funktion hufffixedRadius auf und speichert alle gefundenen Mittelpunkte, unabhängig des Radiuses in einer einzigen Matrix (Radius wird nicht gespeichert da er für nächsten Schritte irrelevant ist).\\
+Die Funktion \(hough\) findet die Kreismittelpunkte von Kreisen mit einem Radius \(r\), \(radiusMin \leq r \leq radiusMax \)  und gibt diese als \(n * 2\) Matrix zurück. 
+Um die Kreismittelpunkte zu finden liest die Funktion das Kantenbild des aktuellen Spieles und Spielzuges ein. \\
 \\
-
-
+Die Funktion \(hough\) ruft für alle ganzzahliegen Radien (\(radiusMin \leq r \leq radiusMax\)) die Funktion hufffixedRadius auf und speichert alle gefundenen Mittelpunkte, unabhängig des Radiuses, in einer einzigen Matrix. Der Radius wird nicht gespeichert da er für nächsten Schritte irrelevant ist.\\
+\\
 In der Funktion \(HoughFixedRadius\) wird über jedes Pixel des Kantenbildes iteriert. Falls das Pixel den Wert 1 hat, also ein Kantenpixel ist, werden m  viele potenzielle Kreismittelpunkte \((hy, hx)\)  abgeschlagen. Diese Punkte berechnen sich durch:  
 \begin{equation}
-hx = x + radius * cos(t)
+x_{h} = x + radius * cos(t)
 \end{equation}
 \begin{equation}
-hy = y + radius *  sin(t)
+y_{h} = y + radius *  sin(t).
 \end{equation}
-wobei \(t = (2\pi/m)*i\) ist. 
-Im zweidimensionales Hough-Raum wird an der Stelle \((hy, hx)\) der Wert um eins erhöht. Siehe Abbildung \ref{fig:houghfixed}.\\
+Wobei \(t = (2\pi/m)*i\) ist. 
+Im zweidimensionalen Hough-Raum wird an der Stelle \((y_{h}, x_{h})\) der Wert um eins erhöht. Siehe Abbildung \ref{fig:houghfixed}.\\
 
 \begin{figure}[ht]
 	\centering
@@ -249,14 +236,14 @@ Im zweidimensionales Hough-Raum wird an der Stelle \((hy, hx)\) der Wert um eins
 	\label{fig:houghfixed}
 \end{figure}
 
-Anschließ end wird das Array auf Maxima untersucht. Da mehrere Kreise gefunden werden müssen, ist es nicht ausreichend das Array auf das Feld mit dem maximalen Wert zu bestimmen. Deshalb wird vom User der Wert \(minHoughValue\) gesetzt (zwischen 0 und 1). Ist der Wert \(minHoughValue = 0\) so wird jedes Feld im Hough-Raum als Kreismittelpunkt gedeutet deren Wert \(\geq 0\) ist. Ist \(minHoughValue = 1\) so werden nur jene Felder als Kreismittelpunkte aufgefasst deren Wert \(\geq amountCenterPoints\) ist.  Falls ein Feld im Hough-Raum als Kreismittelpunkt aufgefasst wird, wird die Position in einem Array gespeichert. \\
+Anschließend wird das Array auf Maxima untersucht. Da mehrere Kreise gefunden werden müssen, ist es nicht ausreichend das Array auf das Feld mit dem maximalen Wert zu bestimmen. Deshalb wird vom User der Wert \(minHoughValue\) gesetzt (zwischen 0 und 1). Umso niedriger dieser Wert ist, umso mehr Kreise werden gefunden. Es steigt jedoch auch die Fehleranfälligkeit. Ist der Wert \(minHoughValue = 0\) so wird jedes Feld im Hough-Raum als Kreismittelpunkt gedeutet deren Wert \(\geq 0\) ist. Ist \(minHoughValue = 1\) so werden nur jene Felder als Kreismittelpunkte aufgefasst deren Wert \(\geq amountCenterPoints\) ist.  Falls ein Feld im Hough-Raum als Kreismittelpunkt aufgefasst wird, wird diese Position in einem Array gespeichert. \\
 \\
-Falls der Wert amountCenterPoints niedrieg gewählt wurde oder das eingelesene Kantenbild teilweise fehlerhaft ist. So kann es passieren das mehrer (leicht unterschiedliche) Kreismittelpunkte für den selben Kreis gefunden werden. Da nur die Mittelpunkte der Spielsteine relevant sind, wir davon ausgehen das alle Spielsteine annähernd gleich groß sind und dass nie zwei Spielsteine übereinander liegen dürfen, können alle gefundenen Kreismittelpunkte \((y_{j}, x_{j})\) deren Distanze \(d\) zum Kreismittelpunkt \((y_{i}, x_{i}) < Radius\) ist gelöscht werden. \\
-
+Falls der Wert amountCenterPoints niedrieg gewählt wurde oder das eingelesene Kantenbild teilweise fehlerhaft ist. So kann es passieren das mehrer (leicht unterschiedliche) Kreismittelpunkte für den selben Kreis gefunden werden. Da nur die Mittelpunkte der Spielsteine relevant sind, wir davon ausgehen das alle Spielsteine annähernd gleich groß sind und dass nie zwei Spielsteine übereinander liegen, können alle gefundenen Kreismittelpunkte \((y_{j}, x_{j})\) deren Distanze zum Kreismittelpunkt \((y_{i}, x_{i})\) kleiner als der \(Radius\) ist gelöscht werden. \\
+\\
 Außerdem müssen wir beim Eingabebild voraussetzen, dass kein Runder gegenstand am Spielfeld liegt deren Radius \(r\)  \(radiusMin \leq r \leq radiusMax\) ist. 
 Anschließend gibt die Funktion HoughFixedRadius alle gefundenen Kreismittelpunkte für den vorgegeben Radius zurück. \\
 
-Da Handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen dürfen löschen wir wieder alle doppelt gefundenen Mittelpunkte. Mittelpunkte werden als Doppelt angesehn wenn die distanze zwischen den zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
+Da Handelsübliche Mühlesteine aus konzentrischen Kreisen aufgebaut sind kann es passieren, dass für einen Spielstein der selbe Mittelpunkt für unterschiedliche Radien gefunden wird.  Da wir wie oben erwähnt davon ausgehen dass nie zwei Steine übereinander liegen, werden wieder alle doppelt gefundenen Mittelpunkte gelöscht. Mittelpunkte werden als Doppelt angesehn wenn die distanze zwischen den zwei Mittelpunkten kleiner als der kleinstmögliche Radius ist. \\
 
 Anschließend wird ein .jpg Bild gespeichert wo die Kreismittelpunkte weiß Makiert sind, sowie ein .txt file mit den Kordinaten der gefundenen Kreismittelpunkte auf dem Eingabebild. Die Funktion Hough gibt die Kreismittelpunte als Matrix zurück. \\ 
 
