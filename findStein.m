@@ -55,7 +55,8 @@ function color = checkColor(img , center)
     right =img(center(1), center(2)+offset);
     left = img(center(1), center(2)-offset);
      
-    avergaC = colorImage + up + down + right + left; 
+    avergaC = uint16(uint16(colorImage) + uint16(up) + uint16(down) + uint16(right) + uint16(left));
+    avergaC = avergaC / 5;
     if(avergaC < 80) 
         color = 1;  
      else
