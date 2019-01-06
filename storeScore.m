@@ -19,30 +19,30 @@ end
 
 function stones = matrixToscore(matrix)
    stones = zeros(1,24);
-        stones(1)=matrix(1,1,3);
-        stones(2)=matrix(1,2,3);
-        stones(3)=matrix(1,3,3);
+        stones(1)=matrix(1,1,1);
+        stones(2)=matrix(1,2,1);
+        stones(3)=matrix(1,3,1);
         stones(4)=matrix(1,1,2);
         stones(5)=matrix(1,2,2);
         stones(6)=matrix(1,3,2);
-        stones(7)=matrix(1,1,1);
-        stones(8)=matrix(1,2,1);
-        stones(9)=matrix(1,3,1);
-        stones(10)=matrix(2,1,3);
+        stones(7)=matrix(1,1,3);
+        stones(8)=matrix(1,2,3);
+        stones(9)=matrix(1,3,3);
+        stones(10)=matrix(2,1,1);
         stones(11)=matrix(2,1,2);
-        stones(12)=matrix(2,1,1);
-        stones(13)=matrix(2,3,1);
+        stones(12)=matrix(2,1,3);
+        stones(13)=matrix(2,3,3);
         stones(14)=matrix(2,3,2);
-        stones(15)=matrix(2,3,3);
-        stones(16)=matrix(3,1,1);
-        stones(17)=matrix(3,2,1);
-        stones(18)=matrix(3,3,1);
+        stones(15)=matrix(2,3,1);
+        stones(16)=matrix(3,1,3);
+        stones(17)=matrix(3,2,3);
+        stones(18)=matrix(3,3,3);
         stones(19)=matrix(3,1,2);
         stones(20)=matrix(3,2,2);
         stones(21)=matrix(3,3,2);
-        stones(22)=matrix(3,1,3);
-        stones(23)=matrix(3,2,3);
-        stones(24)=matrix(3,3,3);
+        stones(22)=matrix(3,1,1);
+        stones(23)=matrix(3,2,1);
+        stones(24)=matrix(3,3,1);
         
         for i = 1:24
             if stones(i) == 1
