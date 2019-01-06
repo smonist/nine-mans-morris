@@ -120,7 +120,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
 		\hline	
 				Spielstanderkennung & 24.12 & 28.12 & 25 & 25\\
 		\hline	
-				Analyse des Spielzüge & 15.12 & 5.1 &... &...\\
+				Analyse des Spielzüge & 15.12 & 2.1 &20 &30\\
 		\hline	
 				Datenbank 2 aufbauen & X & 4.1 &... &...\\
 		\hline
@@ -143,7 +143,7 @@ Kein anderer runder Gegenstand mit dem selben Radius wie die Spielsteine, darf a
     \hline
 			Tobias Batik & Matlab-Funktionen: hough, teilweise findStein; Bericht Abschnitt: 3.5, 4.5, 5.2.1\\
 		\hline
-			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7\\
+			Bougouma Fall & Matlab-Funktionen: isLegit, getPhase, countOccurences, checkForMill; Bericht Abschnitt 3.6, 4.7, 5.2.2\\
 		\hline
 			Yannic Ellhotka & Matlab-Funktion: threshold, canny, GT; Bericht Abschnitt 3.1, 3.2, 4.2, 4.3, 4.4\\
 		\hline
@@ -364,6 +364,11 @@ Bei Game 4 handelt es sich um denselben Datensatz wie bei Game 3. Hier wurde all
 %\textbf{2. Wird ein gültiger Spielzug vorhergesagt?}
 \textbf{2. Wird ein gültiges Spiel als solches erkannt?}
 \\
+
+\textbf{Gültigkeit des Spielzuges}\\
+Unter der Annahme, dass die Spielsteine auf den Beispielbildern richtig erkannt wurden, wird ein gültiges Spiel als solches erkannt. Da unsere Beispielbilder immer von einem ganzen Spiel sind ist es relativ leicht zu überprüfen in welcher Spielphase wir uns befinden. Deswegen wird angenommen dass die Bilder mit dem ersten Zug anfangen.\\
+Wäre dies nicht der Fall, müsste man sich über den Unterschied der Spielsteine errechnen in welcher Spielphase man sich gerade befindet. Jedoch geht das nur unter der Annahme, dass die Daten von einem von einem gültigen Zug stammen. Das würde jedoch den ganzen Algorithmus redundant machen.\\
+Immer wen ein Spiel als nicht gültig erkannt wird, werden die zwei 3x3x3 Matrizen ausgegeben damit diese mit den Eingabebildern verglichen werden können.
 
 
 \textbf{Hough Kreiserkennung}\\
