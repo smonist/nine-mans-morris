@@ -65,7 +65,7 @@ function canny(gameNr, roundNr)
     for i = 2:n - 1,
         for j = 2:m - 1,
             switch theta(i, j)
-                %horizontal edge = vertical filter 
+                %horizontal edge = vertical filter
                 case 0
                     I_temp(i, j) = (gradient(i, j) == max([gradient(i, j), gradient(i, j + 1), gradient(i, j - 1)]));
                     
